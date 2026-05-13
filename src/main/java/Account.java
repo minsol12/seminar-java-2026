@@ -1,15 +1,26 @@
-public class Account {
-    int number; // 계좌번호
-    String owner; // 소유자
-    double balance = 0; // 잔액
+public abstract class Account {
+    // 필드
+    protected long balance;
 
-    public Account() {
-        this.number = number;
-        this.owner = owner;
-        this.balance = balance;
+    // 생성자
+    protected Account() {
+        this.balance = 0;
     }
 
-    public double getBalance() {
-        return balance;
+    // 메서드
+    public void deposit(long amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("0보다 큰 금액을 입력해주세요.");
+        }
+
+        this.balance += amount;
+
+        printResult(amount);
     }
+
+    public void printResult(long amount) {
+        System.out.println("[입금] " + amount + "원 입금 → 잔액: " + this.balance);
+    }
+
+    public abstract void inquiry();
 }
