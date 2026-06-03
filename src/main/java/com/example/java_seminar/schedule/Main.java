@@ -93,19 +93,9 @@ public class Main {
                         break;
 
                             case 3:
-                                System.out.print("이체할 금액을 입력하세요: ");
-                                amount = scanner.nextLong();
-
-                                scanner.nextLine();
-
-                                System.out.print("이체받을 사람의 성함을 입력하세요: ");
-                                transferName = scanner.nextLine();
-
-                                checkingAccount.transfer(amount, transferName);
-                                break;
 
                             case 4:
-                                checkingAccount.inquiry();
+
                                 break;
 
                             case 5:
@@ -119,29 +109,9 @@ public class Main {
                         break;
 
                     case 2:
-                        System.out.println("1. 입금, 2. 조회, 3. 종료");
-                        System.out.print("번호를 입력해 주세요: ");
-                        int num = scanner.nextInt();
 
-                        switch (num) {
-                            case 1:
-                                System.out.print("입금할 금액을 입력하세요: ");
-                                amount = scanner.nextLong();
-                                savingsAccount.deposit(amount);
-                                break;
 
-                            case 2:
-                                savingsAccount.inquiry();
-                                break;
 
-                            case 3:
-                                System.out.println("프로그램을 종료합니다.");
-                                return;
-
-                            default:
-                                System.out.println("잘못된 번호입니다.");
-                        }
-                        break;
 
                     case 5:
                         System.out.println("프로그램을 종료합니다.");
