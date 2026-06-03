@@ -1,3 +1,5 @@
+package com.example.java_seminar.account;
+
 public class SavingsAccount extends Account {
     // 입금, 잔액 조회 기능
     @Override

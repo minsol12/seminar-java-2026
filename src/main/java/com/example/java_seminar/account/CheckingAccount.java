@@ -1,3 +1,5 @@
+package com.example.java_seminar.account;
+
 public class CheckingAccount extends Account {
 
     @Override

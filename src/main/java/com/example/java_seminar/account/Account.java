@@ -1,3 +1,5 @@
+package com.example.java_seminar.account;
+
 public abstract class Account {
     // 필드
     protected long balance;
