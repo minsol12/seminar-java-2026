@@ -37,8 +37,8 @@ public abstract class ScheduleItem {
         this.isCompleted = false;
     }
 
-    public ScheduleItem(int id, String title, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, Priority priority) {
-        this.id = id;
+    public ScheduleItem(String title, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, Priority priority) {
+        this(); // id, createdAt, updatedAt, isCompleted 초기화
         this.title = title;
         this.description = description;
         this.startDate = startDate;
@@ -108,8 +108,15 @@ public abstract class ScheduleItem {
     public static void displayAllSchedules() {
         // 등록된 모든 일정 출력
 
+        // 일정 없을 때
+        if (size == 0) {
+            System.out.println("등록된 일정ㅇ이 없습니다.");
+            return;
+        }
+
         for (int i = 0; i < size; i++) {
             schedules[i].displayInfo();
+            System.out.println();
         }
     }
 

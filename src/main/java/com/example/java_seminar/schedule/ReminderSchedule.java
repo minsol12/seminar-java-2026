@@ -14,6 +14,19 @@ public class ReminderSchedule extends ScheduleItem {
     private NotificationType notificationType;
     private boolean isReminderSent;
 
+    public ReminderSchedule(String title, String description,
+                            LocalDate startDate, LocalDate endDate,
+                            LocalTime startTime, LocalTime endTime,
+                            Priority priority,
+                            LocalTime reminderTime, String reminderMessage,
+                            NotificationType notificationType) {
+        super(title, description, startDate, endDate, startTime, endTime, priority);
+        this.reminderTime = reminderTime;
+        this.reminderMessage = reminderMessage;
+        this.notificationType = notificationType;
+        this.isReminderSent = false; // 새로 등록한 알림이니까 아직 알림 발송 안한거니까 false로
+    }
+
     public LocalTime getReminderTime() {
         return reminderTime;
     }

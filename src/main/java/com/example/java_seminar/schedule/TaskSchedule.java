@@ -1,6 +1,7 @@
 package com.example.java_seminar.schedule;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class TaskSchedule extends ScheduleItem {
 
@@ -12,6 +13,18 @@ public class TaskSchedule extends ScheduleItem {
     private int progress;
     private TaskStatus taskStatus;
     private String assignedTo;
+
+    public TaskSchedule(String title, String description,
+                        LocalDate startDate, LocalDate endDate,
+                        LocalTime startTime, LocalTime endTime,
+                        Priority priority,
+                        LocalDate deadline, String assignedTo) {
+        super(title, description, startDate, endDate, startTime, endTime, priority);
+        this.deadline = deadline;
+        this.progress = 0; // 새로 등록이니까 진행률 0
+        this.taskStatus = TaskStatus.TODO; // 새로 등록이니까
+        this.assignedTo = assignedTo;
+    }
 
     public LocalDate getDeadline() {
         return deadline;

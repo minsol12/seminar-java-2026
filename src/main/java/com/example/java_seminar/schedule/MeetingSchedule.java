@@ -1,12 +1,26 @@
 package com.example.java_seminar.schedule;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class MeetingSchedule extends ScheduleItem {
     private String location;
     private String participants;
     private String agenda;
     private String host;
+
+    public MeetingSchedule(String title, String description,
+                           LocalDate startDate, LocalDate endDate,
+                           LocalTime startTime, LocalTime endTime,
+                           Priority priority,
+                           String location, String participants,
+                           String agenda, String host) {
+        super(title, description, startDate, endDate, startTime, endTime, priority);
+        this.location = location;
+        this.participants = participants;
+        this.agenda = agenda;
+        this.host = host;
+    }
 
     public String getLocation() {
         return location;

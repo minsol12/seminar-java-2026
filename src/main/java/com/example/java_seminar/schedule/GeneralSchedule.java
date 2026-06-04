@@ -1,7 +1,6 @@
 package com.example.java_seminar.schedule;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class GeneralSchedule extends ScheduleItem {
@@ -9,12 +8,12 @@ public class GeneralSchedule extends ScheduleItem {
     private String place;
     private String memo;
 
-    public GeneralSchedule(int id, String title, String description,
+    public GeneralSchedule(String title, String description,
                            LocalDate startDate, LocalDate endDate,
                            LocalTime startTime, LocalTime endTime,
                            Priority priority,
                            String category, String place, String memo) {
-        super(id, title, description, startDate, endDate, startTime, endTime, priority);
+        super(title, description, startDate, endDate, startTime, endTime, priority);
         this.category = category;
         this.place = place;
         this.memo = memo;
