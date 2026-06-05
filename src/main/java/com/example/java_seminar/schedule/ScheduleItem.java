@@ -46,6 +46,11 @@ public abstract class ScheduleItem {
         this.startTime = startTime;
         this.endTime = endTime;
         this.priority = priority;
+        
+        // 예외 처리 - startDate와 endDate 관계
+        if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
+            throw new IllegalArgumentException("시작 날짜는 마감 날짜보다 빨라야 합니다.");
+        }
     }
 
     public int getId() { return id; }
@@ -100,8 +105,16 @@ public abstract class ScheduleItem {
         this.updatedAt = LocalDateTime.now();
     }
 
-
     public static void addSchedule(ScheduleItem item) {
+        // 1. 충돌 확인 (checkConflict 호출)
+        int targetIndex = -1;
+
+        if (checkConflict(targetIndex, item.getStartDate(), item.getStartTime(), item.getEndDate(), item.getEndTime())) {
+            // 충돌이 발생하면 함수를 여기서 종료 (등록 안 함)
+            System.out.println("일정이 겹쳐서 등록할 수 없습니다.");
+            return;
+        }
+
         schedules[size++] = item;
     }
 
@@ -110,7 +123,7 @@ public abstract class ScheduleItem {
 
         // 일정 없을 때
         if (size == 0) {
-            System.out.println("등록된 일정ㅇ이 없습니다.");
+            System.out.println("등록된 일정이 없습니다.");
             return;
         }
 
@@ -123,11 +136,18 @@ public abstract class ScheduleItem {
     public static void displayScheduleById(int id) {
         // id 입력받아 특정 일정의 상세 정보 출력
 
+        boolean isFound = false;
+
         for (int i = 0; i < size; i++) {
             if (schedules[i].getId() == id) {
+                isFound = true;
                 schedules[i].displayInfo();
                 return;
             }
+        }
+
+        if (isFound == false) {
+            System.out.println("해당 id가 존재하지 않습니다.");
         }
     }
 
@@ -135,8 +155,20 @@ public abstract class ScheduleItem {
                                       LocalDate startDate, LocalDate endDate,
                                       LocalTime startTime, LocalTime endTime,
                                       Priority priority) {
+
+        int targetIndex = -1;
+
+        boolean isFound = false;
+
+        if (checkConflict(targetIndex, startDate, startTime, endDate, endTime)) {
+            System.out.println("일정이 겹쳐서 수정할 수 없습니다.");
+            return;
+        }
+
         for (int i = 0; i < size; i++) {
             if (schedules[i].getId() == id) {
+                isFound = true;
+
                 schedules[i].setTitle(title);
                 schedules[i].setDescription(description);
                 schedules[i].setStartDate(startDate);
@@ -147,13 +179,25 @@ public abstract class ScheduleItem {
                 return;
             }
         }
+
+        if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
+            throw new IllegalArgumentException("시작 날짜는 마감 날짜보다 빨라야 합니다.");
+        }
+
+        if (isFound == false) {
+            System.out.println("해당 id가 존재하지 않습니다.");
+        }
     }
 
     public static void deleteSchedule(int id) {
         // id 입력받아 해당 일정 삭제
 
+        boolean isFound = false;
+
         for (int i = 0; i < size; i++) {
             if (schedules[i].getId() == id) {
+                isFound = true;
+
                 for (int j = i; j < size - 1; j++) {
                     schedules[j] = schedules[j + 1];
                 }
@@ -161,14 +205,27 @@ public abstract class ScheduleItem {
                 return;
             }
         }
+
+        if (isFound == false) {
+            System.out.println("해당 id가 존재하지 않습니다.");
+        }
     }
 
     public static void completeSchedule(int id) {
+
+        boolean isFound = false;
+
         for (int i = 0; i < size; i++) {
             if (schedules[i].getId() == id) {
+                isFound = true;
+
                 schedules[i].markAsCompleted();
                 return;
             }
+        }
+
+        if (isFound == false) {
+            System.out.println("해당 id가 존재하지 않습니다.");
         }
     }
 
@@ -272,21 +329,41 @@ public abstract class ScheduleItem {
         Arrays.sort(schedules, 0, size, (a, b) -> Boolean.compare(a.isCompleted(), b.isCompleted()));
     }
 
-    public static boolean checkConflict(ScheduleItem newItem) {
+    public static boolean checkConflict(int targetIndex, LocalDate newStartDate, LocalTime newStartTime, LocalDate newEndDate, LocalTime newEndTime) {
         // 등록 또는 수정 시 기존 일정과 시간이 겹치는지 확인
 
         for (int i = 0; i < size; i++) {
-            ScheduleItem s = schedules[i];
+//            ScheduleItem s = schedules[i];
+
+            if (i == targetIndex) {
+                continue;
+            }
             // 같은지 - equals / 기존 일정과 시간 / isBefore, isAfter
-            if (newItem.getStartDate().equals(s.getStartDate())
-                    && newItem.getStartTime().isBefore(s.getEndTime())
-                    && newItem.getEndTime().isAfter(s.getStartTime())) {
+
+            // 날짜 데이터와 시간 데이터를 합쳐서 하나의 시간 객체로
+            // 새로운거
+            LocalDateTime newStart = LocalDateTime.of(newStartDate, newStartTime);
+            LocalDateTime newEnd = LocalDateTime.of(newEndDate, newEndTime);
+
+            // 기존
+            LocalDateTime sStart = LocalDateTime.of(schedules[i].getStartDate(), schedules[i].getStartTime());
+            LocalDateTime sEnd = LocalDateTime.of(schedules[i].getEndDate(), schedules[i].getEndTime());
+
+            // 2. 겹침 조건 확인: (새시작 < 기존종료) && (새종료 > 기존시작)
+            if (newStart.isBefore(sEnd) && newEnd.isAfter(sStart)) {
+                System.out.println("충돌 발생! 다음 일정과 시간이 겹칩니다:");
+                schedules[i].getId();
+                schedules[i].getTitle();
+                schedules[i].getStartDate();
+                schedules[i].getStartTime();
+                schedules[i].getEndDate();
+                schedules[i].getEndTime();
+
                 return true;
             }
         }
         return false;
     }
-
 
     public static void runNotification(int id) {
         // id를 입력받아 해당 일정의 notifyUser를 실행

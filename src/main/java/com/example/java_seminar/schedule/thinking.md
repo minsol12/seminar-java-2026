@@ -55,3 +55,8 @@ GeneralSchedule -
 MeetingSchedule - 
 TaskSchedule - 
 ReminderSchedule -
+
+
+- DateTimeParseException — LocalDate.parse(), LocalTime.parse() 잘못된 형식 입력 (예: "2026/06/05", "abc"). 이건 RuntimeException을 직접 상속해서 지금 catch에 안 잡힘
+  → 프로그램 종료됨
+    - (선택) 시간 충돌 확인 — checkConflict() 메서드가 있는데 등록할 때 호출 안 되고 있음

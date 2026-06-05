@@ -5,6 +5,10 @@ import java.time.LocalTime;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+// 수정을 하면 조회가 안됨 더이상.. -> 해결완 ㅋㅋ
+// 6. 완료 해도 TODO에서 안바뀜 -> 해결완 !!ㅎㅎ
+// 날짜 잘못된 입력 했을 때 오류 메시지 출력 - 프로그램 안꺼지게
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -22,103 +26,108 @@ public class Main {
 
                 switch (choice) {
                     case 1:
-                        // 일정 등록
-                        System.out.println();
-                        System.out.println("=== 일정 등록 ===");
-                        System.out.println("1. 일반 일정, 2. 회의 일정, 3. 할일 일정, 4. 알림 일정");
-                        System.out.print("등록할 일정을 선택해 주세요: ");
-                        int type = scanner.nextInt();
-                        scanner.nextLine();
+                        try {
+                            // 일정 등록
+                            System.out.println();
+                            System.out.println("=== 일정 등록 ===");
+                            System.out.println("1. 일반 일정, 2. 회의 일정, 3. 할일 일정, 4. 알림 일정");
+                            System.out.print("등록할 일정을 선택해 주세요: ");
+                            int type = scanner.nextInt();
+                            scanner.nextLine();
 
-                        // 잘못된 번호 입력했을 때
-                        if (type < 1 || type > 4) {
-                            System.out.println("잘못된 번호입니다.");
-                            break;
-                        }
-
-                        // 공통
-                        System.out.print("제목 입력: ");
-                        String title = scanner.nextLine();
-
-                        System.out.print("내용 입력: ");
-                        String description = scanner.nextLine();
-
-                        System.out.print("시작 날짜 입력: ");
-                        LocalDate startDate = LocalDate.parse(scanner.nextLine());
-
-                        System.out.print("마감 날짜 입력: ");
-                        LocalDate endDate = LocalDate.parse(scanner.nextLine());
-
-                        System.out.print("시작 시간 입력: ");
-                        LocalTime startTime = LocalTime.parse(scanner.nextLine());
-
-                        System.out.print("마감 시간 입력: ");
-                        LocalTime endTime = LocalTime.parse(scanner.nextLine());
-
-                        System.out.print("우선 순위 입력: ");
-                        ScheduleItem.Priority priority = ScheduleItem.Priority.valueOf(scanner.nextLine()); // 대문자만 받게 해야하나? toUpperCase()
-
-                        switch (type) {
-                            case 1:
-                                System.out.print("카테고리 입력: ");
-                                String category = scanner.nextLine();
-
-                                System.out.print("장소 입력: ");
-                                String place = scanner.nextLine();
-
-                                System.out.print("메모 입력: ");
-                                String memo = scanner.nextLine();
-
-                                GeneralSchedule generalSchedule = new GeneralSchedule(title, description, startDate, endDate, startTime, endTime, priority, category, place, memo);
-                                ScheduleItem.addSchedule(generalSchedule);
-                                System.out.println("일정이 등록되었습니다!");
+                            // 잘못된 번호 입력했을 때
+                            if (type < 1 || type > 4) {
+                                System.out.println("잘못된 번호입니다.");
                                 break;
+                            }
 
-                            case 2:
-                                System.out.print("장소 입력: ");
-                                String location = scanner.nextLine();
+                            // 공통
+                            System.out.print("제목 입력: ");
+                            String title = scanner.nextLine();
 
-                                System.out.print("참가자 입력: ");
-                                String participants = scanner.nextLine();
+                            System.out.print("내용 입력: ");
+                            String description = scanner.nextLine();
 
-                                System.out.print("안건 입력: ");
-                                String agenda = scanner.nextLine();
+                            System.out.print("시작 날짜 입력: ");
+                            LocalDate startDate = LocalDate.parse(scanner.nextLine());
 
-                                System.out.print("호스트 입력: ");
-                                String host = scanner.nextLine();
+                            System.out.print("마감 날짜 입력: ");
+                            LocalDate endDate = LocalDate.parse(scanner.nextLine());
 
-                                MeetingSchedule meetingSchedule = new MeetingSchedule(title, description, startDate, endDate, startTime, endTime, priority, location, participants, agenda, host);
-                                ScheduleItem.addSchedule(meetingSchedule);
-                                System.out.println("일정이 등록되었습니다!");
-                                break;
+                            System.out.print("시작 시간 입력: ");
+                            LocalTime startTime = LocalTime.parse(scanner.nextLine());
 
-                            case 3:
-                                System.out.print("마감일 입력: ");
-                                LocalDate deadline = LocalDate.parse(scanner.nextLine());
+                            System.out.print("마감 시간 입력: ");
+                            LocalTime endTime = LocalTime.parse(scanner.nextLine());
 
-                                System.out.print("담당자 입력: ");
-                                String assignedTo = scanner.nextLine();
+                            System.out.print("우선 순위 입력: ");
+                            ScheduleItem.Priority priority = ScheduleItem.Priority.valueOf(scanner.nextLine().toUpperCase()); // 대문자로 바뀌게
 
-                                TaskSchedule taskSchedule = new TaskSchedule(title, description, startDate, endDate, startTime, endTime, priority, deadline, assignedTo);
-                                ScheduleItem.addSchedule(taskSchedule);
-                                System.out.println("일정이 등록되었습니다!");
-                                break;
+                            switch (type) {
+                                case 1:
+                                    System.out.print("카테고리 입력: ");
+                                    String category = scanner.nextLine();
 
-                            case 4:
-                                // 알림 일정
-                                System.out.print("알림 시간 입력: ");
-                                LocalTime reminderTime = LocalTime.parse(scanner.nextLine());
+                                    System.out.print("장소 입력: ");
+                                    String place = scanner.nextLine();
 
-                                System.out.print("알림 메시지 입력: ");
-                                String reminderMessage = scanner.nextLine();
+                                    System.out.print("메모 입력: ");
+                                    String memo = scanner.nextLine();
 
-                                System.out.print("알림 Type 입력: ");
-                                ReminderSchedule.NotificationType notificationType = ReminderSchedule.NotificationType.valueOf(scanner.nextLine());
+                                    GeneralSchedule generalSchedule = new GeneralSchedule(title, description, startDate, endDate, startTime, endTime, priority, category, place, memo);
+                                    ScheduleItem.addSchedule(generalSchedule);
+                                    System.out.println("일정이 등록되었습니다!");
+                                    break;
 
-                                ReminderSchedule reminderSchedule = new ReminderSchedule(title, description, startDate, endDate, startTime, endTime, priority, reminderTime, reminderMessage, notificationType);
-                                ScheduleItem.addSchedule(reminderSchedule);
-                                System.out.println("일정이 등록되었습니다!");
-                                break;
+                                case 2:
+                                    System.out.print("장소 입력: ");
+                                    String location = scanner.nextLine();
+
+                                    System.out.print("참가자 입력: ");
+                                    String participants = scanner.nextLine();
+
+                                    System.out.print("안건 입력: ");
+                                    String agenda = scanner.nextLine();
+
+                                    System.out.print("호스트 입력: ");
+                                    String host = scanner.nextLine();
+
+                                    MeetingSchedule meetingSchedule = new MeetingSchedule(title, description, startDate, endDate, startTime, endTime, priority, location, participants, agenda, host);
+                                    ScheduleItem.addSchedule(meetingSchedule);
+                                    System.out.println("일정이 등록되었습니다!");
+                                    break;
+
+                                case 3:
+                                    System.out.print("마감일 입력: ");
+                                    LocalDate deadline = LocalDate.parse(scanner.nextLine());
+
+                                    System.out.print("담당자 입력: ");
+                                    String assignedTo = scanner.nextLine();
+
+                                    TaskSchedule taskSchedule = new TaskSchedule(title, description, startDate, endDate, startTime, endTime, priority, deadline, assignedTo);
+                                    ScheduleItem.addSchedule(taskSchedule);
+                                    System.out.println("일정이 등록되었습니다!");
+                                    break;
+
+                                case 4:
+                                    // 알림 일정
+                                    System.out.print("알림 시간 입력: ");
+                                    LocalTime reminderTime = LocalTime.parse(scanner.nextLine());
+
+                                    System.out.print("알림 메시지 입력: ");
+                                    String reminderMessage = scanner.nextLine();
+
+                                    System.out.print("알림 Type 입력: ");
+                                    ReminderSchedule.NotificationType notificationType = ReminderSchedule.NotificationType.valueOf(scanner.nextLine().toUpperCase());
+
+                                    ReminderSchedule reminderSchedule = new ReminderSchedule(title, description, startDate, endDate, startTime, endTime, priority, reminderTime, reminderMessage, notificationType);
+                                    ScheduleItem.addSchedule(reminderSchedule);
+                                    System.out.println("일정이 등록되었습니다!");
+                                    break;
+                            }
+
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("시작 날짜는 마감 날짜보다 빨라야 합니다.");
                         }
                         break;
 
@@ -145,76 +154,150 @@ public class Main {
                         // String title, String description,
                         // LocalDate startDate, LocalDate endDate,
                         // LocalTime startTime, LocalTime endTime, Priority priority
+                        try {
+                            System.out.println("===일정 수정 ===");
+                            System.out.print("수정할 일정 ID: ");
 
-                        System.out.println("===일정 수정 ===");
-                        System.out.print("수정할 일정 ID: ");
+                            int updateId = scanner.nextInt();
+                            scanner.nextLine();
 
-                        int updateId = scanner.nextInt();
-                        scanner.nextLine();
+                            System.out.print("새 제목 입력: ");
+                            String newTitle = scanner.nextLine();
 
-                        System.out.print("새 제목 입력: ");
-                        String newTitle = scanner.nextLine();
+                            System.out.print("새 내용 입력: ");
+                            String newDescription = scanner.nextLine();
 
-                        System.out.print("새 내용 입력: ");
-                        String newDescription = scanner.nextLine();
+                            System.out.print("새 시작 날짜 입력: ");
+                            LocalDate newStartDate = LocalDate.parse(scanner.nextLine());
 
-                        System.out.print("새 시작 날짜 입력: ");
-                        LocalDate newStartDate = LocalDate.parse(scanner.nextLine());
+                            System.out.print("새 마감 날짜 입력: ");
+                            LocalDate newEndDate = LocalDate.parse(scanner.nextLine());
 
-                        System.out.print("새 마감 날짜 입력: ");
-                        LocalDate newEndDate = LocalDate.parse(scanner.nextLine());
+                            System.out.print("새 시작 시간 입력: ");
+                            LocalTime newStartTime = LocalTime.parse(scanner.nextLine());
 
-                        System.out.print("새 시작 시간 입력: ");
-                        LocalTime newStartTime = LocalTime.parse(scanner.nextLine());
+                            System.out.print("새 마감 시간 입력: ");
+                            LocalTime newEndTime = LocalTime.parse(scanner.nextLine());
 
-                        System.out.print("새 마감 시간 입력: ");
-                        LocalTime newEndTime = LocalTime.parse(scanner.nextLine());
+                            System.out.print("새 우선순위 입력: ");
+                            ScheduleItem.Priority newPriority = ScheduleItem.Priority.valueOf(scanner.nextLine().toUpperCase());
 
-                        System.out.print("새 우선순위 입력: ");
-                        ScheduleItem.Priority newPriority = ScheduleItem.Priority.valueOf(scanner.nextLine());
-
-                        ScheduleItem.updateSchedule(updateId, newTitle, newDescription, newStartDate, newEndDate, newStartTime, newEndTime, newPriority);
-
-
-                        // 고유 필드도 수정되게 해야댐..
-                        // 타입별로
-                        // instanceof?
-                        // if문 써서 비교하면서
+                            ScheduleItem.updateSchedule(updateId, newTitle, newDescription, newStartDate, newEndDate, newStartTime, newEndTime, newPriority);
 
 
-                        System.out.println("일정이 수정되었습니다!");
+                            // 고유 필드도 수정되게 해야댐..
+                            // 타입별로
+                            // instanceof?
+                            // if문 써서 비교하면서
+
+
+                            System.out.println("일정이 수정되었습니다!");
+                            break;
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("시작 날짜는 마감 날짜보다 빨라야 합니다.");
+                        }
+
                         break;
 
                     case 5:
                         // 삭제
+                        System.out.println("=== 일정 삭제 ===");
+                        System.out.print("삭제할 일정 ID: ");
+
+                        int deleteId = scanner.nextInt();
+                        scanner.nextLine();
+
+                        ScheduleItem.deleteSchedule(deleteId);
+                        System.out.println("일정이 삭제되었습니당!");
+
                         break;
 
                     case 6:
                         // 완료
+                        System.out.println("=== 일정 완료 처리 ===");
+                        System.out.print("완료할 일정 ID: ");
+
+                        int completeId = scanner.nextInt();
+                        scanner.nextLine();
+
+                        ScheduleItem.completeSchedule(completeId);
+                        System.out.println("일정이 완료되었습니다!");
                         break;
 
                     case 7:
                         // 제목 검색
+                        // searchByTitle
+                        // displayInfo() 호출
+                        System.out.println("=== 제목 검색 ===");
+                        System.out.print("검색할 제목: ");
+
+                        String searchTitle = scanner.nextLine();
+
+                        ScheduleItem[] titleResults = ScheduleItem.searchByTitle(searchTitle);
+
+                        for (ScheduleItem scheduleItem : titleResults) {
+                            scheduleItem.displayInfo();
+                            System.out.println();
+                        }
+
                         break;
 
                     case 8:
                         // 날짜 검색
+                        System.out.println("=== 날짜 검색 ===");
+                        System.out.print("검색할 날짜: ");
+
+                        LocalDate searchDate = LocalDate.parse(scanner.nextLine());
+
+                        ScheduleItem[] dateResults = ScheduleItem.searchByDate(searchDate);
+
+                        for (ScheduleItem scheduleItem : dateResults) {
+                            scheduleItem.displayInfo();
+                            System.out.println();
+                        }
                         break;
 
                     case 9:
                         // 중요도 검색
+                        System.out.println("=== 중요도 검색 ===");
+                        System.out.print("검색할 중요도 입력 (HIGH/MEDIUM/LOW): ");
+
+                        ScheduleItem.Priority searchPriority = ScheduleItem.Priority.valueOf(scanner.nextLine().toUpperCase());
+
+                        ScheduleItem[] priorityResults = ScheduleItem.searchByPriority(searchPriority);
+
+                        for (ScheduleItem scheduleItem : priorityResults) {
+                                scheduleItem.displayInfo();
+                                System.out.println();
+                        }
+
                         break;
 
                     case 10:
                         // 날짜순 정렬
+                        System.out.println("=== 날짜순 정렬 ===");
+
+                        ScheduleItem.sortByDate();
+                        ScheduleItem.displayAllSchedules();
+
                         break;
 
                     case 11:
                         // 중요도순 정렬
+                        System.out.println("=== 중요도순 정렬 ===");
+
+                        ScheduleItem.sortByPriority();
+                        ScheduleItem.displayAllSchedules();
+
                         break;
 
                     case 12:
                         // 완료 여부순 정렬
+                        System.out.println("=== 완료 여부순 정렬 ===");
+
+                        ScheduleItem.sortByCompletion();
+                        ScheduleItem.displayAllSchedules();
+
                         break;
 
                     case 13:

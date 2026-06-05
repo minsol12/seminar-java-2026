@@ -82,12 +82,17 @@ public class TaskSchedule extends ScheduleItem {
 
     @Override
     public void markAsCompleted() {
-        // 오늘이 EndDate 하루 후가 되면 -> 완료 처리
+        // 오늘이 EndDate 하루 후가 되면 -> 완료 처리 -> 이게 여기에 있는게 맞나?
+        // 호출되면 완료처리
         if (LocalDate.now().equals(getEndDate().plusDays(1))) {
             setCompleted(true);
             setProgress(100);
             setTaskStatus(TaskStatus.DONE);
         }
+
+        setCompleted(true);
+        setProgress(100);
+        setTaskStatus(TaskStatus.DONE);
     }
 
     @Override
