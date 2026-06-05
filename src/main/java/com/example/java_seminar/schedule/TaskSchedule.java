@@ -48,6 +48,10 @@ public class TaskSchedule extends ScheduleItem {
 
     public void setProgress(int progress) {
         this.progress = progress;
+
+        if (progress < 0 || progress > 100) {
+            System.err.println("progress는 0 이상 100 이하의 정수여야 한다.");
+        }
     }
 
     public void setTaskStatus(TaskStatus taskStatus) {

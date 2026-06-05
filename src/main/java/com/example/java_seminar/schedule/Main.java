@@ -5,9 +5,10 @@ import java.time.LocalTime;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-// 수정을 하면 조회가 안됨 더이상.. -> 해결완 ㅋㅋ
-// 6. 완료 해도 TODO에서 안바뀜 -> 해결완 !!ㅎㅎ
 // 날짜 잘못된 입력 했을 때 오류 메시지 출력 - 프로그램 안꺼지게
+// 예외 처리 꼭 해두기!
+// item이랑 manager이랑 나누기
+// createAt이랑 updatedAt 둘다 어케 나오는지 비교해보기. create 처음 할 때 createAt이랑 updatedAt이랑 같게 하고 나중에 수정할때 updatedAt만 수정되게 하기.
 
 public class Main {
     public static void main(String[] args) {
