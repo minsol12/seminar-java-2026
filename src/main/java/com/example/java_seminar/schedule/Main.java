@@ -2,6 +2,7 @@ package com.example.java_seminar.schedule;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -50,20 +51,20 @@ public class Main {
                             System.out.print("내용 입력: ");
                             String description = scanner.nextLine();
 
-                            System.out.print("시작 날짜 입력: ");
-                            LocalDate startDate = LocalDate.parse(scanner.nextLine());
+//                            System.out.print("시작 날짜 입력: ");
+                            LocalDate startDate = readDate(scanner, "시작 날짜 입력: ");
 
-                            System.out.print("마감 날짜 입력: ");
-                            LocalDate endDate = LocalDate.parse(scanner.nextLine());
+//                            System.out.print("마감 날짜 입력: ");
+                            LocalDate endDate = readDate(scanner, "마감 날짜 입력: ");
 
-                            System.out.print("시작 시간 입력: ");
-                            LocalTime startTime = LocalTime.parse(scanner.nextLine());
+//                            System.out.print("시작 시간 입력: ");
+                            LocalTime startTime = readTime(scanner, "시작 시간 입력: ");
 
-                            System.out.print("마감 시간 입력: ");
-                            LocalTime endTime = LocalTime.parse(scanner.nextLine());
+//                            System.out.print("마감 시간 입력: ");
+                            LocalTime endTime = readTime(scanner, "마감 시간 입력: ");
 
-                            System.out.print("우선 순위 입력: ");
-                            ScheduleItem.Priority priority = ScheduleItem.Priority.valueOf(scanner.nextLine().toUpperCase()); // 대문자로 바뀌게
+//                            System.out.print("우선 순위 입력: ");
+                            ScheduleItem.Priority priority = readPriority(scanner, "우선 순위 입력: ");
 
                             switch (type) {
                                 case 1:
@@ -100,8 +101,8 @@ public class Main {
                                     break;
 
                                 case 3:
-                                    System.out.print("마감일 입력: ");
-                                    LocalDate deadline = LocalDate.parse(scanner.nextLine());
+//                                    System.out.print("마감일 입력: ");
+                                    LocalDate deadline = readDate(scanner, "마감일 입력: ");
 
                                     System.out.print("담당자 입력: ");
                                     String assignedTo = scanner.nextLine();
@@ -113,14 +114,14 @@ public class Main {
 
                                 case 4:
                                     // 알림 일정
-                                    System.out.print("알림 시간 입력: ");
-                                    LocalTime reminderTime = LocalTime.parse(scanner.nextLine());
+//                                    System.out.print("알림 시간 입력: ");
+                                    LocalTime reminderTime = readTime(scanner, "알림 시간 입력: ");
 
                                     System.out.print("알림 메시지 입력: ");
                                     String reminderMessage = scanner.nextLine();
 
-                                    System.out.print("알림 Type 입력: ");
-                                    ReminderSchedule.NotificationType notificationType = ReminderSchedule.NotificationType.valueOf(scanner.nextLine().toUpperCase());
+//                                    System.out.print("알림 Type 입력: ");
+                                    ReminderSchedule.NotificationType notificationType = readNotificationType(scanner, "알림 Type 입력: ");
 
                                     ReminderSchedule reminderSchedule = new ReminderSchedule(title, description, startDate, endDate, startTime, endTime, priority, reminderTime, reminderMessage, notificationType);
                                     manager.addSchedule(reminderSchedule);
@@ -169,20 +170,20 @@ public class Main {
                             System.out.print("새 내용 입력: ");
                             String newDescription = scanner.nextLine();
 
-                            System.out.print("새 시작 날짜 입력: ");
-                            LocalDate newStartDate = LocalDate.parse(scanner.nextLine());
+//                            System.out.print("새 시작 날짜 입력: ");
+                            LocalDate newStartDate = readDate(scanner, "새 시작 날짜 입력: ");
 
-                            System.out.print("새 마감 날짜 입력: ");
-                            LocalDate newEndDate = LocalDate.parse(scanner.nextLine());
+//                            System.out.print("새 마감 날짜 입력: ");
+                            LocalDate newEndDate = readDate(scanner, "새 마감 날짜 입력: ");
 
-                            System.out.print("새 시작 시간 입력: ");
-                            LocalTime newStartTime = LocalTime.parse(scanner.nextLine());
+//                            System.out.print("새 시작 시간 입력: ");
+                            LocalTime newStartTime = readTime(scanner, "새 시작 시간 입력: ");
 
-                            System.out.print("새 마감 시간 입력: ");
-                            LocalTime newEndTime = LocalTime.parse(scanner.nextLine());
+//                            System.out.print("새 마감 시간 입력: ");
+                            LocalTime newEndTime = readTime(scanner, "새 마감 시간 입력: ");
 
-                            System.out.print("새 우선순위 입력: ");
-                            ScheduleItem.Priority newPriority = ScheduleItem.Priority.valueOf(scanner.nextLine().toUpperCase());
+//                            System.out.print("새 우선순위 입력: ");
+                            ScheduleItem.Priority newPriority = readPriority(scanner, "새 우선순위 입력: ");
 
                             manager.updateSchedule(updateId, newTitle, newDescription, newStartDate, newEndDate, newStartTime, newEndTime, newPriority);
 
@@ -247,9 +248,9 @@ public class Main {
                     case 8:
                         // 날짜 검색
                         System.out.println("=== 날짜 검색 ===");
-                        System.out.print("검색할 날짜: ");
+//                        System.out.print("검색할 날짜: ");
 
-                        LocalDate searchDate = LocalDate.parse(scanner.nextLine());
+                        LocalDate searchDate = readDate(scanner, "검색할 날짜: ");
 
                         ScheduleItem[] dateResults = manager.searchByDate(searchDate);
 
@@ -262,9 +263,9 @@ public class Main {
                     case 9:
                         // 중요도 검색
                         System.out.println("=== 중요도 검색 ===");
-                        System.out.print("검색할 중요도 입력 (HIGH/MEDIUM/LOW): ");
+//                        System.out.print("검색할 중요도 입력 (HIGH/MEDIUM/LOW): ");
 
-                        ScheduleItem.Priority searchPriority = ScheduleItem.Priority.valueOf(scanner.nextLine().toUpperCase());
+                        ScheduleItem.Priority searchPriority = readPriority(scanner, "검색할 중요도 입력 (HIGH/MEDIUM/LOW): ");
 
                         ScheduleItem[] priorityResults = manager.searchByPriority(searchPriority);
 
@@ -316,6 +317,75 @@ public class Main {
             } catch (InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 숫자만 입력해 주세요.");
                 scanner.nextLine();
+            }
+        }
+    }
+
+    // 입력 예외 처리를 위한 메서드들
+    // 날짜 반환 - 날짜 물어보기 - 틀리면 오류 메시지 출력 - 다시 물어보기 - 맞으면 LocalDate 돌려줌
+    private static LocalDate readDate(Scanner scanner, String prompt) {
+        // 1. 무한 반복 시작
+        while (true) {
+            // 2. 안내문 출력
+//            System.out.println("날짜 입력: ");
+            System.out.print(prompt);
+
+            // 3. 한 줄 입력
+            String input = scanner.nextLine();
+
+            // 4. LocalDate.parse() 시도 (yyyy-MM-dd)
+            // 5. 성공하면 return
+            // 6. 실패하면 DateTimeParseException 잡기
+            try {
+                return LocalDate.parse(input);
+            } catch (DateTimeParseException e) {
+                System.out.println("날짜 형식이 올바르지 않습니다. 예: 2026-06-12");
+            }
+        }
+    }
+
+    // 시간 반환
+    private static LocalTime readTime(Scanner scanner, String prompt) {
+        while (true) {
+//            System.out.println("시간 입력: ");
+            System.out.print(prompt);
+            String input = scanner.nextLine();
+
+            try {
+                return LocalTime.parse(input);
+            } catch (DateTimeParseException e) {
+                System.out.println("시간 형식이 올바르지 않습니다. 예: 14:30");
+            }
+        }
+    }
+
+    // 우선순위 반환
+    private static ScheduleItem.Priority readPriority(Scanner scanner, String prompt) {
+        while (true) {
+//            System.out.println("우선순위 입력: ");
+            System.out.print(prompt);
+            // HIGH, MEDIUM, LOW
+            String input = scanner.nextLine().toUpperCase();
+
+            try {
+                return ScheduleItem.Priority.valueOf(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("우선순위는 HIGH, MEDIUM, LOW 중 하나만 입력하세요.");
+            }
+        }
+    }
+
+    // 알림 타입 반환
+    private static ReminderSchedule.NotificationType readNotificationType(Scanner scanner, String prompt) {
+        while (true) {
+//            System.out.println("알림 타입 입력: ");
+            System.out.print(prompt);
+            String input = scanner.nextLine().toUpperCase();
+
+            try {
+                return ReminderSchedule.NotificationType.valueOf(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("알림 타입은 POPUP, SOUND, MESSAGE 중 하나만 입력하세요.");
             }
         }
     }
