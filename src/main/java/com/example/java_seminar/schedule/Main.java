@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        ScheduleManager manager = new ScheduleManager();
 
         while (true) {
             try {
@@ -76,7 +77,7 @@ public class Main {
                                     String memo = scanner.nextLine();
 
                                     GeneralSchedule generalSchedule = new GeneralSchedule(title, description, startDate, endDate, startTime, endTime, priority, category, place, memo);
-                                    ScheduleItem.addSchedule(generalSchedule);
+                                    manager.addSchedule(generalSchedule);
                                     System.out.println("일정이 등록되었습니다!");
                                     break;
 
@@ -94,7 +95,7 @@ public class Main {
                                     String host = scanner.nextLine();
 
                                     MeetingSchedule meetingSchedule = new MeetingSchedule(title, description, startDate, endDate, startTime, endTime, priority, location, participants, agenda, host);
-                                    ScheduleItem.addSchedule(meetingSchedule);
+                                    manager.addSchedule(meetingSchedule);
                                     System.out.println("일정이 등록되었습니다!");
                                     break;
 
@@ -106,7 +107,7 @@ public class Main {
                                     String assignedTo = scanner.nextLine();
 
                                     TaskSchedule taskSchedule = new TaskSchedule(title, description, startDate, endDate, startTime, endTime, priority, deadline, assignedTo);
-                                    ScheduleItem.addSchedule(taskSchedule);
+                                    manager.addSchedule(taskSchedule);
                                     System.out.println("일정이 등록되었습니다!");
                                     break;
 
@@ -122,7 +123,7 @@ public class Main {
                                     ReminderSchedule.NotificationType notificationType = ReminderSchedule.NotificationType.valueOf(scanner.nextLine().toUpperCase());
 
                                     ReminderSchedule reminderSchedule = new ReminderSchedule(title, description, startDate, endDate, startTime, endTime, priority, reminderTime, reminderMessage, notificationType);
-                                    ScheduleItem.addSchedule(reminderSchedule);
+                                    manager.addSchedule(reminderSchedule);
                                     System.out.println("일정이 등록되었습니다!");
                                     break;
                             }
@@ -134,7 +135,7 @@ public class Main {
 
                     case 2:
                         System.out.println("=== 전체 일정 목록 ===");
-                        ScheduleItem.displayAllSchedules();
+                        manager.displayAllSchedules();
                         break;
 
                     case 3:
@@ -146,7 +147,7 @@ public class Main {
                         int idSearch = scanner.nextInt();
                         scanner.nextLine();
 
-                        ScheduleItem.displayScheduleById(idSearch);
+                        manager.displayScheduleById(idSearch);
                         break;
 
                     case 4:
@@ -183,7 +184,7 @@ public class Main {
                             System.out.print("새 우선순위 입력: ");
                             ScheduleItem.Priority newPriority = ScheduleItem.Priority.valueOf(scanner.nextLine().toUpperCase());
 
-                            ScheduleItem.updateSchedule(updateId, newTitle, newDescription, newStartDate, newEndDate, newStartTime, newEndTime, newPriority);
+                            manager.updateSchedule(updateId, newTitle, newDescription, newStartDate, newEndDate, newStartTime, newEndTime, newPriority);
 
 
                             // 고유 필드도 수정되게 해야댐..
@@ -208,7 +209,7 @@ public class Main {
                         int deleteId = scanner.nextInt();
                         scanner.nextLine();
 
-                        ScheduleItem.deleteSchedule(deleteId);
+                        manager.deleteSchedule(deleteId);
                         System.out.println("일정이 삭제되었습니당!");
 
                         break;
@@ -221,7 +222,7 @@ public class Main {
                         int completeId = scanner.nextInt();
                         scanner.nextLine();
 
-                        ScheduleItem.completeSchedule(completeId);
+                        manager.completeSchedule(completeId);
                         System.out.println("일정이 완료되었습니다!");
                         break;
 
@@ -234,7 +235,7 @@ public class Main {
 
                         String searchTitle = scanner.nextLine();
 
-                        ScheduleItem[] titleResults = ScheduleItem.searchByTitle(searchTitle);
+                        ScheduleItem[] titleResults = manager.searchByTitle(searchTitle);
 
                         for (ScheduleItem scheduleItem : titleResults) {
                             scheduleItem.displayInfo();
@@ -250,7 +251,7 @@ public class Main {
 
                         LocalDate searchDate = LocalDate.parse(scanner.nextLine());
 
-                        ScheduleItem[] dateResults = ScheduleItem.searchByDate(searchDate);
+                        ScheduleItem[] dateResults = manager.searchByDate(searchDate);
 
                         for (ScheduleItem scheduleItem : dateResults) {
                             scheduleItem.displayInfo();
@@ -265,7 +266,7 @@ public class Main {
 
                         ScheduleItem.Priority searchPriority = ScheduleItem.Priority.valueOf(scanner.nextLine().toUpperCase());
 
-                        ScheduleItem[] priorityResults = ScheduleItem.searchByPriority(searchPriority);
+                        ScheduleItem[] priorityResults = manager.searchByPriority(searchPriority);
 
                         for (ScheduleItem scheduleItem : priorityResults) {
                                 scheduleItem.displayInfo();
@@ -278,8 +279,8 @@ public class Main {
                         // 날짜순 정렬
                         System.out.println("=== 날짜순 정렬 ===");
 
-                        ScheduleItem.sortByDate();
-                        ScheduleItem.displayAllSchedules();
+                        manager.sortByDate();
+                        manager.displayAllSchedules();
 
                         break;
 
@@ -287,8 +288,8 @@ public class Main {
                         // 중요도순 정렬
                         System.out.println("=== 중요도순 정렬 ===");
 
-                        ScheduleItem.sortByPriority();
-                        ScheduleItem.displayAllSchedules();
+                        manager.sortByPriority();
+                        manager.displayAllSchedules();
 
                         break;
 
@@ -296,8 +297,8 @@ public class Main {
                         // 완료 여부순 정렬
                         System.out.println("=== 완료 여부순 정렬 ===");
 
-                        ScheduleItem.sortByCompletion();
-                        ScheduleItem.displayAllSchedules();
+                        manager.sortByCompletion();
+                        manager.displayAllSchedules();
 
                         break;
 
