@@ -64,6 +64,8 @@ public class ScheduleManager {
 
     boolean isFound = false;
 
+    ScheduleItem.validateDateTime(startDate, endDate, startTime, endTime);
+
     if (checkConflict(targetIndex, startDate, startTime, endDate, endTime)) {
       System.out.println("일정이 겹쳐서 수정할 수 없습니다.");
       return;
@@ -84,9 +86,9 @@ public class ScheduleManager {
       }
     }
 
-    if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
-      throw new IllegalArgumentException("시작 날짜는 마감 날짜보다 빨라야 합니다.");
-    }
+//    if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
+//      throw new IllegalArgumentException("시작 날짜는 마감 날짜보다 빨라야 합니다.");
+//    }
 
     if (isFound == false) {
       System.out.println("해당 id가 존재하지 않습니다.");

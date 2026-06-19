@@ -38,6 +38,8 @@ public class GeneralSchedule extends ScheduleItem {
         System.out.println("startTime: " + getStartTime());
         System.out.println("endTime: " + getEndTime());
         System.out.println("priority: " + getPriority());
+        System.out.println("createdAt: " + getCreatedAt());
+        System.out.println("updatedAt: " + getUpdatedAt());
         System.out.println("category: " + getCategory());
         System.out.println("place: " + getPlace());
         System.out.println("memo: " + getMemo());

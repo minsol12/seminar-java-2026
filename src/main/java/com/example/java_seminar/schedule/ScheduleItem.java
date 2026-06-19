@@ -31,8 +31,9 @@ public abstract class ScheduleItem {
 
     public ScheduleItem() {
         this.id = idCounter++;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
         this.isCompleted = false;
     }
 
@@ -47,9 +48,11 @@ public abstract class ScheduleItem {
         this.priority = priority;
         
         // 예외 처리 - startDate와 endDate 관계
-        if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
-            throw new IllegalArgumentException("시작 날짜는 마감 날짜보다 빨라야 합니다.");
-        }
+//        if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
+//            throw new IllegalArgumentException("시작 날짜는 마감 날짜보다 빨라야 합니다.");
+//        }
+
+        validateDateTime(startDate, endDate, startTime, endTime);
     }
 
     public int getId() { return id; }
@@ -112,4 +115,22 @@ public abstract class ScheduleItem {
 
     public abstract void notifyUser();
 
+    // 검증 메서드
+    // 입력 - startDate, endDate, startTime, endTime
+    // 출력 - 잘못된 범위일 때만
+    //  - 일정 시간 범위 유효 검사
+    //    1. 시작 날짜가 종료 날짜보다 늦으면 예외
+    //    2. 시작 날짜와 종료 날짜가 같을 경우
+    //       - 시작 시간이 종료 시간보다 늦으면 예외
+    //       - 시작 시간과 종료 시간이 같으면 예외
+
+    public static void validateDateTime(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("시작 날짜는 종료 날짜보다 늦을 수 없습니다.");
+        } else if (startDate.isEqual(endDate)) {
+            if (!startTime.isBefore(endTime)) {
+                throw new IllegalArgumentException("시작 시간이 종료 시간보다 빨라야 합니다.");
+            }
+        }
+    }
 }

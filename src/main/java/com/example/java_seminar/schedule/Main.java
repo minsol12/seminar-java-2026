@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 // 날짜 잘못된 입력 했을 때 오류 메시지 출력 - 프로그램 안꺼지게
 // 예외 처리 꼭 해두기!
-// item이랑 manager이랑 나누기
-// createAt이랑 updatedAt 둘다 어케 나오는지 비교해보기. create 처음 할 때 createAt이랑 updatedAt이랑 같게 하고 나중에 수정할때 updatedAt만 수정되게 하기.
+// 시작일/종료일, 시작시간/종료시간 관계
+// 생성 시 createdAt == updatedAt 되게 만들기. 수정 시 updatedAt만 바뀌게 만들기
 
 public class Main {
     public static void main(String[] args) {
@@ -130,7 +130,7 @@ public class Main {
                             }
 
                         } catch (IllegalArgumentException e) {
-                            System.out.println("시작 날짜는 마감 날짜보다 빨라야 합니다.");
+                            System.out.println(e.getMessage());
                         }
                         break;
 
@@ -197,7 +197,7 @@ public class Main {
                             System.out.println("일정이 수정되었습니다!");
                             break;
                         } catch (IllegalArgumentException e) {
-                            System.out.println("시작 날짜는 마감 날짜보다 빨라야 합니다.");
+                            System.out.println(e.getMessage());
                         }
 
                         break;

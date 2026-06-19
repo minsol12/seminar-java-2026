@@ -73,6 +73,8 @@ public class TaskSchedule extends ScheduleItem {
         System.out.println("startTime: " + getStartTime());
         System.out.println("endTime: " + getEndTime());
         System.out.println("priority: " + getPriority());
+        System.out.println("createdAt: " + getCreatedAt());
+        System.out.println("updatedAt: " + getUpdatedAt());
         System.out.println("deadline: " + getDeadline());
         System.out.println("progress: " + getProgress());
         System.out.println("status: " + getTaskStatus());

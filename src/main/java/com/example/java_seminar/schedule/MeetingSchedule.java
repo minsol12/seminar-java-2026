@@ -65,6 +65,8 @@ public class MeetingSchedule extends ScheduleItem {
         System.out.println("startTime: " + getStartTime());
         System.out.println("endTime: " + getEndTime());
         System.out.println("priority: " + getPriority());
+        System.out.println("createdAt: " + getCreatedAt());
+        System.out.println("updatedAt: " + getUpdatedAt());
         System.out.println("location: " + getLocation());
         System.out.println("participants: " + getParticipants());
         System.out.println("agenda: " + getAgenda());

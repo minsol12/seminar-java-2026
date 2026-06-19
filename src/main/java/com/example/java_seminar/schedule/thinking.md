@@ -1,38 +1,37 @@
 ## 일정 관리 프로그램 요구사항
 
-
 -----
-클래스
-ScheduleItem (모든 일정이 공통으로 따름)
-GeneralSchedule - 일반 일정
-MeetingSchedule - 회의 일정
-TaskSchedule - 할일 일정
-ReminderSchedule - 알림 일정
+### 클래스
+- ScheduleItem (모든 일정이 공통으로 따름)
+- GeneralSchedule - 일반 일정
+- MeetingSchedule - 회의 일정
+- TaskSchedule - 할일 일정
+- ReminderSchedule - 알림 일정
 
-필드
-id, title, description, startDate, endDate, startTime, endTime, priority, createdAt, updatedAt, isCompleted
-category, place, memo
-location, participants, agenda, host
-daedline, progress, taskStatus, assignedTo
-reminderTime, reminderMessage, notificationType, isReminderSent
+### 필드
+- id, title, description, startDate, endDate, startTime, endTime, priority, createdAt, updatedAt, isCompleted
+- category, place, memo
+- location, participants, agenda, host
+- deadline, progress, taskStatus, assignedTo
+- reminderTime, reminderMessage, notificationType, isReminderSent
 
 
-추상 메서드
-displayInfo - 모든 일정은 자신의 정보를 출력하는 기능이 있어야됨.
-- 전체 일정 조회 시 프로그램은 목록에 들어 있는 각 일정의 displayInfo를 호출 (호출 방식은 모든 일정에 대해 동일)
+### 추상 메서드
+- displayInfo - 모든 일정은 자신의 정보를 출력하는 기능이 있어야됨.
+  - 전체 일정 조회 시 프로그램은 목록에 들어 있는 각 일정의 displayInfo를 호출 (호출 방식은 모든 일정에 대해 동일)
 
-getScheduleType - 모든 일정은 자신의 일정 종류를 반환하는 기능을 가져야 함.
-- 일정 종류에 따라 각각 다른 값 반환
+- getScheduleType - 모든 일정은 자신의 일정 종류를 반환하는 기능을 가져야 함.
+  - 일정 종류에 따라 각각 다른 값 반환
 
-markAsCompleted - 모든 일정은 완료 처리 기능을 가져야 함.
-- 일반 일정, 회의 일정, 알림 일정은 완료 처리 시 isCompleted를 true로 변경
-- 할 일 일정은 완료 처리 시 isCompleted를 true로 변경, progress를 100으로 변경, taskStatus를 DONE으로 변경
+- markAsCompleted - 모든 일정은 완료 처리 기능을 가져야 함.
+  - 일반 일정, 회의 일정, 알림 일정은 완료 처리 시 isCompleted를 true로 변경
+  - 할 일 일정은 완료 처리 시 isCompleted를 true로 변경, progress를 100으로 변경, taskStatus를 DONE으로 변경
 
-notifyUser - 모든 일정은 알림 실행 기능을 가져야 함.
-- 알림 일정은 notify가 실행되면 reminderMessage 출력하고 isReminderSent를 true로 변경
-- 알림 일정이 아닌 일정에서 notifyUser가 실행되면 알림 대상이 아니라는 안내 메시지 출력
+- notifyUser - 모든 일정은 알림 실행 기능을 가져야 함.
+  - 알림 일정은 notify가 실행되면 reminderMessage 출력하고 isReminderSent를 true로 변경
+  - 알림 일정이 아닌 일정에서 notifyUser가 실행되면 알림 대상이 아니라는 안내 메시지 출력
 
-필수 기능
+### 필수 기능
 - addSchedule
 - displayAllSchedules
 - displayScheduleById
@@ -49,13 +48,25 @@ notifyUser - 모든 일정은 알림 실행 기능을 가져야 함.
 - runNotification
 
 
+---
+### memo
+- 시작일/종료일, 시작시간/종료시간 관계
+- 생성 시 createdAt == updatedAt 되게 만들기. 수정 시 updatedAt만 바뀌게 만들기
 
-ScheduleItem - 필수 기능
-GeneralSchedule - 
-MeetingSchedule - 
-TaskSchedule - 
-ReminderSchedule -
+- 날짜, 시간 검증 메서드 따로 만들기
+  - 생성자, 수정 기능
+  - ScheduleItem에 만들기
+  - startDate, endDate, startTime, endTime
+  - 일정 시간 범위 유효 검사
+    1. 시작 날짜가 종료 날짜보다 늦으면 예외
+    2. 시작 날짜와 종료 날짜가 같을 경우
+       - 시작 시간이 종료 시간보다 늦으면 예외
+       - 시작 시간과 종료 시간이 같으면 예외
 
+
+
+
+### 참고
 
 - DateTimeParseException — LocalDate.parse(), LocalTime.parse() 잘못된 형식 입력 (예: "2026/06/05", "abc"). 이건 RuntimeException을 직접 상속해서 지금 catch에 안 잡힘
   → 프로그램 종료됨
