@@ -71,9 +71,26 @@ public class ScheduleManager {
                                     LocalTime startTime, LocalTime endTime,
                                     ScheduleItem.Priority priority) {
 
+    // 수정 대상 id를 가진 일정 인덱스 찾기
+    // 못 찾으면 -> "해당 id가 존재하지 않습니다." 출력 -> 종료
+    // 찾으면 -> 그 인덱스가 targetIndex
+    // 날짜/시간 검증
+    // checkConflict(targetIndex, ...) 호출
+    // 충돌 없으면 setter로 수정
+
     int targetIndex = -1;
 
-    boolean isFound = false;
+    for (int i = 0; i < size; i++) {
+      if (schedules[i].getId() == id) {
+        targetIndex = i;
+        break;
+      }
+    }
+
+    if (targetIndex == -1) {
+      System.out.println("해당 id가 존재하지 않습니다.");
+      return;
+    }
 
     ScheduleItem.validateDateTime(startDate, endDate, startTime, endTime);
 
@@ -82,28 +99,13 @@ public class ScheduleManager {
       return;
     }
 
-    for (int i = 0; i < size; i++) {
-      if (schedules[i].getId() == id) {
-        isFound = true;
-
-        schedules[i].setTitle(title);
-        schedules[i].setDescription(description);
-        schedules[i].setStartDate(startDate);
-        schedules[i].setEndDate(endDate);
-        schedules[i].setStartTime(startTime);
-        schedules[i].setEndTime(endTime);
-        schedules[i].setPriority(priority);
-        return;
-      }
-    }
-
-//    if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
-//      throw new IllegalArgumentException("시작 날짜는 마감 날짜보다 빨라야 합니다.");
-//    }
-
-    if (isFound == false) {
-      System.out.println("해당 id가 존재하지 않습니다.");
-    }
+    schedules[targetIndex].setTitle(title);
+    schedules[targetIndex].setDescription(description);
+    schedules[targetIndex].setStartDate(startDate);
+    schedules[targetIndex].setEndDate(endDate);
+    schedules[targetIndex].setStartTime(startTime);
+    schedules[targetIndex].setEndTime(endTime);
+    schedules[targetIndex].setPriority(priority);
   }
 
   public void deleteSchedule(int id) {

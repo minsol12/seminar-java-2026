@@ -48,12 +48,12 @@ public class TaskSchedule extends ScheduleItem {
     }
 
     public void setProgress(int progress) {
-        this.progress = progress;
-        touchUpdatedAt();
-
         if (progress < 0 || progress > 100) {
             System.err.println("progress는 0 이상 100 이하의 정수여야 한다.");
         }
+
+        this.progress = progress;
+        touchUpdatedAt();
     }
 
     public void setTaskStatus(TaskStatus taskStatus) {
@@ -90,19 +90,20 @@ public class TaskSchedule extends ScheduleItem {
         return "Task Schedule";
     }
 
+    // 수동 완료
     @Override
     public void markAsCompleted() {
-        // 오늘이 EndDate 하루 후가 되면 -> 완료 처리 -> 이게 여기에 있는게 맞나?
-        // 호출되면 완료처리
+        setCompleted(true);
+        setProgress(100);
+        setTaskStatus(TaskStatus.DONE);
+    }
+
+    public void autoComplete() {
         if (LocalDate.now().equals(getEndDate().plusDays(1))) {
             setCompleted(true);
             setProgress(100);
             setTaskStatus(TaskStatus.DONE);
         }
-
-        setCompleted(true);
-        setProgress(100);
-        setTaskStatus(TaskStatus.DONE);
     }
 
     @Override
