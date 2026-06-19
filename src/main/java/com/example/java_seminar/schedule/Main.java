@@ -164,6 +164,13 @@ public class Main {
                             int updateId = scanner.nextInt();
                             scanner.nextLine();
 
+                            // 수정 대상 찾기
+                            ScheduleItem item = manager.findById(updateId);
+                            if (item == null) {
+                                System.out.println("수정하려는 일정이 없습니다.");
+                                break;
+                            }
+
                             System.out.print("새 제목 입력: ");
                             String newTitle = scanner.nextLine();
 
@@ -187,12 +194,72 @@ public class Main {
 
                             manager.updateSchedule(updateId, newTitle, newDescription, newStartDate, newEndDate, newStartTime, newEndTime, newPriority);
 
+                            // 고유 필드도 수정 가능하게 -> 타입별로. instanceof 사용. if문 써서 비교하면서
+                            if (item instanceof GeneralSchedule) {
+                                // category, place, memo
+                                GeneralSchedule generalSchedule = (GeneralSchedule) item;
 
-                            // 고유 필드도 수정되게 해야댐..
-                            // 타입별로
-                            // instanceof?
-                            // if문 써서 비교하면서
+                                System.out.println("새 카테고리 입력: ");
+                                String newCategory = scanner.nextLine();
 
+                                System.out.println("새 장소 입력: ");
+                                String newPlace = scanner.nextLine();
+
+                                System.out.println("새 메모 입력: ");
+                                String newMemo = scanner.nextLine();
+
+                                generalSchedule.setCategory(newCategory);
+                                generalSchedule.setPlace(newPlace);
+                                generalSchedule.setMemo(newMemo);
+
+                            } else if (item instanceof MeetingSchedule) {
+                                // location, participants, agenda, host
+                                MeetingSchedule meetingSchedule = (MeetingSchedule) item;
+
+                                System.out.println("새 위치 입력: ");
+                                String newLocation = scanner.nextLine();
+
+                                System.out.println("새 참가자 입력: ");
+                                String newParticipants = scanner.nextLine();
+
+                                System.out.println("새 안건 입력: ");
+                                String newAgenda = scanner.nextLine();
+
+                                System.out.println("새 호스트 입력: ");
+                                String newHost = scanner.nextLine();
+
+                                meetingSchedule.setLocation(newLocation);
+                                meetingSchedule.setParticipants(newParticipants);
+                                meetingSchedule.setAgenda(newAgenda);
+                                meetingSchedule.setHost(newHost);
+
+                            } else if (item instanceof TaskSchedule) {
+                                // deadline, assignedTo
+                                TaskSchedule taskSchedule = (TaskSchedule) item;
+
+                                LocalDate newDeadline = readDate(scanner, "마감일 입력: ");
+
+                                System.out.print("새 담당자 입력: ");
+                                String newAssignedTo = scanner.nextLine();
+
+                                taskSchedule.setDeadline(newDeadline);
+                                taskSchedule.setAssignedTo(newAssignedTo);
+
+                            } else if (item instanceof ReminderSchedule) {
+                                // reminderTime, reminderMessage, notificationType
+                                ReminderSchedule reminderSchedule = (ReminderSchedule) item;
+
+                                LocalTime newReminderTime = readTime(scanner, "새 알림 시간 입력: ");
+
+                                System.out.print("새 알림 메시지 입력: ");
+                                String newReminderMessage = scanner.nextLine();
+
+                                ReminderSchedule.NotificationType newNotificationType = readNotificationType(scanner, "새 알림 Type 입력: ");
+
+                                reminderSchedule.setReminderTime(newReminderTime);
+                                reminderSchedule.setReminderMessage(newReminderMessage);
+                                reminderSchedule.setNotificationType(newNotificationType);
+                            }
 
                             System.out.println("일정이 수정되었습니다!");
                             break;

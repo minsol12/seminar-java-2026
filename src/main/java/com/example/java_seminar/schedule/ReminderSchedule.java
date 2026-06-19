@@ -45,18 +45,22 @@ public class ReminderSchedule extends ScheduleItem {
 
     public void setReminderTime(LocalTime reminderTime) {
         this.reminderTime = reminderTime;
+        touchUpdatedAt();
     }
 
     public void setReminderMessage(String reminderMessage) {
         this.reminderMessage = reminderMessage;
+        touchUpdatedAt();
     }
 
     public void setNotificationType(NotificationType notificationType) {
         this.notificationType = notificationType;
+        touchUpdatedAt();
     }
 
     public void setReminderSent(boolean reminderSent) {
         isReminderSent = reminderSent;
+        touchUpdatedAt();
     }
 
     @Override

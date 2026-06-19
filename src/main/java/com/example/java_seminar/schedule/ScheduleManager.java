@@ -54,6 +54,17 @@ public class ScheduleManager {
       System.out.println("해당 id가 존재하지 않습니다.");
     }
   }
+  
+  // id 찾기
+  public ScheduleItem findById(int id) {
+    for (int i = 0; i < size; i++) {
+      if (schedules[i].getId() == id) {
+        return schedules[i];
+      }
+    }
+    
+    return null;
+  }
 
   public void updateSchedule(int id, String title, String description,
                                     LocalDate startDate, LocalDate endDate,

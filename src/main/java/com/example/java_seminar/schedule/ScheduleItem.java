@@ -107,6 +107,11 @@ public abstract class ScheduleItem {
         this.updatedAt = LocalDateTime.now();
     }
 
+    // updatedAt 갱신 메서드
+    protected void touchUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
+    }
+    
     public abstract void displayInfo();
 
     public abstract String getScheduleType();

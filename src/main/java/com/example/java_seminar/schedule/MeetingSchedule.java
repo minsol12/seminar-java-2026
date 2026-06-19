@@ -40,18 +40,22 @@ public class MeetingSchedule extends ScheduleItem {
 
     public void setLocation(String location) {
         this.location = location;
+        touchUpdatedAt();
     }
 
     public void setParticipants(String participants) {
         this.participants = participants;
+        touchUpdatedAt();
     }
 
     public void setAgenda(String agenda) {
         this.agenda = agenda;
+        touchUpdatedAt();
     }
 
     public void setHost(String host) {
         this.host = host;
+        touchUpdatedAt();
     }
 
     @Override

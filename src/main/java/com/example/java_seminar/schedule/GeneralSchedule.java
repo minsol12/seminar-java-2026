@@ -23,9 +23,18 @@ public class GeneralSchedule extends ScheduleItem {
     public String getPlace() { return place; }
     public String getMemo() { return memo; }
 
-    public void setCategory(String category) { this.category = category; }
-    public void setPlace(String place) { this.place = place; }
-    public void setMemo(String memo) { this.memo = memo; }
+    public void setCategory(String category) {
+        this.category = category;
+        touchUpdatedAt();
+    }
+    public void setPlace(String place) {
+        this.place = place;
+        touchUpdatedAt();
+    }
+    public void setMemo(String memo) {
+        this.memo = memo;
+        touchUpdatedAt();
+    }
 
     @Override
     public void displayInfo() {

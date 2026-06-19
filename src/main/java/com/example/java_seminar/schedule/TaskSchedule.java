@@ -44,10 +44,12 @@ public class TaskSchedule extends ScheduleItem {
 
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
+        touchUpdatedAt();
     }
 
     public void setProgress(int progress) {
         this.progress = progress;
+        touchUpdatedAt();
 
         if (progress < 0 || progress > 100) {
             System.err.println("progress는 0 이상 100 이하의 정수여야 한다.");
@@ -56,10 +58,12 @@ public class TaskSchedule extends ScheduleItem {
 
     public void setTaskStatus(TaskStatus taskStatus) {
         this.taskStatus = taskStatus;
+        touchUpdatedAt();
     }
 
     public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
+        touchUpdatedAt();
     }
 
     @Override
