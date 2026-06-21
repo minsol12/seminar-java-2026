@@ -6,10 +6,7 @@ import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-// 날짜 잘못된 입력 했을 때 오류 메시지 출력 - 프로그램 안꺼지게
-// 예외 처리 꼭 해두기!
-// 시작일/종료일, 시작시간/종료시간 관계
-// 생성 시 createdAt == updatedAt 되게 만들기. 수정 시 updatedAt만 바뀌게 만들기
+// 마감 시간이 시작 시간보다 빠를 때 예외 처리가 입력이 다 끝나고 나오게 됨. 입력 즉시 판단해서 예외처리 되도록 수정하기
 
 public class Main {
     public static void main(String[] args) {
@@ -199,13 +196,13 @@ public class Main {
                                 // category, place, memo
                                 GeneralSchedule generalSchedule = (GeneralSchedule) item;
 
-                                System.out.println("새 카테고리 입력: ");
+                                System.out.print("새 카테고리 입력: ");
                                 String newCategory = scanner.nextLine();
 
-                                System.out.println("새 장소 입력: ");
+                                System.out.print("새 장소 입력: ");
                                 String newPlace = scanner.nextLine();
 
-                                System.out.println("새 메모 입력: ");
+                                System.out.print("새 메모 입력: ");
                                 String newMemo = scanner.nextLine();
 
                                 generalSchedule.setCategory(newCategory);
@@ -216,16 +213,16 @@ public class Main {
                                 // location, participants, agenda, host
                                 MeetingSchedule meetingSchedule = (MeetingSchedule) item;
 
-                                System.out.println("새 위치 입력: ");
+                                System.out.print("새 위치 입력: ");
                                 String newLocation = scanner.nextLine();
 
-                                System.out.println("새 참가자 입력: ");
+                                System.out.print("새 참가자 입력: ");
                                 String newParticipants = scanner.nextLine();
 
-                                System.out.println("새 안건 입력: ");
+                                System.out.print("새 안건 입력: ");
                                 String newAgenda = scanner.nextLine();
 
-                                System.out.println("새 호스트 입력: ");
+                                System.out.print("새 호스트 입력: ");
                                 String newHost = scanner.nextLine();
 
                                 meetingSchedule.setLocation(newLocation);

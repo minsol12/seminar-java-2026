@@ -74,8 +74,7 @@
       - 타입별 고유 필드 입력받아서 setter 호출해서 수정
 
 
-### 참고
-
-- DateTimeParseException — LocalDate.parse(), LocalTime.parse() 잘못된 형식 입력 (예: "2026/06/05", "abc"). 이건 RuntimeException을 직접 상속해서 지금 catch에 안 잡힘
-  → 프로그램 종료됨
-    - (선택) 시간 충돌 확인 — checkConflict() 메서드가 있는데 등록할 때 호출 안 되고 있음
+### 다음 계획
+1. 지금까지 작업을 모두 컬렉션으로 바꾸기
+2. 입력이 잘못된 경우 화면에 출력하고 return 되도록 만들어져 있다면 exception으로 바꾸기. 다 throw 해서 main에서 잡기. 아니면 입력하게 만들었다면 거기서 잡기. (try-catch 쓰기)
+3. 파일 저장하는 기능 만들기 - db 아님
