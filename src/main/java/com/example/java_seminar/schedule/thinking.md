@@ -77,5 +77,9 @@
 ### 다음 계획
 1. 지금까지 작업을 모두 컬렉션으로 바꾸기
    - List<ScheduleItem>
-2. 입력이 잘못된 경우 화면에 출력하고 return 되도록 만들어져 있다면 exception으로 바꾸기. 다 throw 해서 main에서 잡기. 아니면 입력하게 만들었다면 거기서 잡기. (try-catch 쓰기)
+2. 입력이 잘못된 경우 화면에 출력하고 return 되도록 만들어져 있다면 exception으로 바꾸기.
+   - 예외를 throw해서 올리고
+   - Main에서 try-catch로 잡아 사용자에게 출력.
+   - 단, readDate, readTime, readPriority처럼 재입력 받는 메서드는 그 안에서 잡아도 됨.
+   - Exception 클래스 새로 만들기 (ScheduleException, ScheduleNotFoundException, ScheduleConflictException, ScheduleStorageException)
 3. 파일 저장하는 기능 만들기 - db 아님

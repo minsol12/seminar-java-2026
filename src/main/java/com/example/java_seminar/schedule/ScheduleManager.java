@@ -13,14 +13,15 @@ public class ScheduleManager {
 
   private List<ScheduleItem> schedules = new ArrayList<>();
 
-  public void addSchedule(ScheduleItem item) {
+  public void addSchedule(ScheduleItem item) throws ScheduleConflictException{
     // 1. 충돌 확인 (checkConflict 호출)
     int targetIndex = -1;
 
     if (checkConflict(targetIndex, item.getStartDate(), item.getStartTime(), item.getEndDate(), item.getEndTime())) {
       // 충돌이 발생하면 함수를 여기서 종료 (등록 안 함)
-      System.out.println("일정이 겹쳐서 등록할 수 없습니다.");
-      return;
+//      System.out.println("일정이 겹쳐서 등록할 수 없습니다.");
+//      return;
+      throw new ScheduleConflictException("일정이 겹쳐서 등록할 수 없습니다.");
     }
 
 //    schedules[size++] = item;
@@ -47,29 +48,32 @@ public class ScheduleManager {
     }
   }
 
-  public void displayScheduleById(int id) {
+  public void displayScheduleById(int id) throws ScheduleNotFoundException {
     // id 입력받아 특정 일정의 상세 정보 출력
 
-    boolean isFound = false;
+//    boolean isFound = false;
+//
+////    for (int i = 0; i < size; i++) {
+////      if (schedules[i].getId() == id) {
+//    for (ScheduleItem item : schedules) {
+//      if (item.getId() == id) {
+//        isFound = true;
+////        schedules[i].displayInfo();
+//        item.displayInfo();
+//        return;
+//      }
+//    }
+//
+//    if (isFound == false) {
+//      System.out.println("해당 id가 존재하지 않습니다.");
+//    }
 
-//    for (int i = 0; i < size; i++) {
-//      if (schedules[i].getId() == id) {
-    for (ScheduleItem item : schedules) {
-      if (item.getId() == id) {
-        isFound = true;
-//        schedules[i].displayInfo();
-        item.displayInfo();
-        return;
-      }
-    }
-
-    if (isFound == false) {
-      System.out.println("해당 id가 존재하지 않습니다.");
-    }
+    ScheduleItem item = findById(id);
+    item.displayInfo();
   }
   
   // id 찾기
-  public ScheduleItem findById(int id) {
+  public ScheduleItem findById(int id) throws ScheduleNotFoundException {
 //    for (int i = 0; i < size; i++) {
 //      if (schedules[i].getId() == id) {
 //        return schedules[i];
@@ -82,13 +86,14 @@ public class ScheduleManager {
       }
     }
     
-    return null;
+//    return null;
+    throw new ScheduleNotFoundException(id);
   }
 
   public void updateSchedule(int id, String title, String description,
                                     LocalDate startDate, LocalDate endDate,
                                     LocalTime startTime, LocalTime endTime,
-                                    ScheduleItem.Priority priority) {
+                                    ScheduleItem.Priority priority) throws ScheduleException {
 
     // 수정 대상 id를 가진 일정 인덱스 찾기
     // 못 찾으면 -> "해당 id가 존재하지 않습니다." 출력 -> 종료
@@ -115,15 +120,17 @@ public class ScheduleManager {
     }
     
     if (targetIndex == -1) {
-      System.out.println("해당 id가 존재하지 않습니다.");
-      return;
+//      System.out.println("해당 id가 존재하지 않습니다.");
+//      return;
+      throw new ScheduleNotFoundException(id);
     }
 
     ScheduleItem.validateDateTime(startDate, endDate, startTime, endTime);
 
     if (checkConflict(targetIndex, startDate, startTime, endDate, endTime)) {
-      System.out.println("일정이 겹쳐서 수정할 수 없습니다.");
-      return;
+//      System.out.println("일정이 겹쳐서 수정할 수 없습니다.");
+//      return;
+      throw new ScheduleConflictException("일정이 겹쳐서 수정할 수 없습니다.");
     }
 
 //    schedules[targetIndex].setTitle(title);
@@ -143,10 +150,10 @@ public class ScheduleManager {
     schedules.get(targetIndex).setPriority(priority);
   }
 
-  public void deleteSchedule(int id) {
+  public void deleteSchedule(int id) throws ScheduleNotFoundException {
     // id 입력받아 해당 일정 삭제
 
-    boolean isFound = false;
+//    boolean isFound = false;
 
 //    for (int i = 0; i < size; i++) {
 //      if (schedules[i].getId() == id) {
@@ -162,20 +169,22 @@ public class ScheduleManager {
 
     for (int i = 0; i < schedules.size(); i++) {
       if (schedules.get(i).getId() == id) {
-        isFound = true;
+//        isFound = true;
         schedules.remove(i);
-        break;
+//        break;
+        return;
       }
     }
 
-    if (isFound == false) {
-      System.out.println("해당 id가 존재하지 않습니다.");
-    }
+//    if (isFound == false) {
+//      System.out.println("해당 id가 존재하지 않습니다.");
+//    }
+    throw new ScheduleNotFoundException(id);
   }
 
-  public void completeSchedule(int id) {
+  public void completeSchedule(int id) throws ScheduleNotFoundException {
 
-    boolean isFound = false;
+//    boolean isFound = false;
 
 //    for (int i = 0; i < size; i++) {
 //      if (schedules[i].getId() == id) {
@@ -186,17 +195,20 @@ public class ScheduleManager {
 //      }
 //    }
 
-    for (ScheduleItem item : schedules) {
-      if (item.getId() == id) {
-        isFound = true;
-        item.markAsCompleted();
-        return;
-      }
-    }
+//    for (ScheduleItem item : schedules) {
+//      if (item.getId() == id) {
+//        isFound = true;
+//        item.markAsCompleted();
+//        return;
+//      }
+//    }
+//
+//    if (isFound == false) {
+//      System.out.println("해당 id가 존재하지 않습니다.");
+//    }
 
-    if (isFound == false) {
-      System.out.println("해당 id가 존재하지 않습니다.");
-    }
+    ScheduleItem item = findById(id);
+    item.markAsCompleted();
   }
 
   public ScheduleItem[] searchByTitle(String title) {
@@ -388,7 +400,7 @@ public class ScheduleManager {
     return false;
   }
 
-  public void runNotification(int id) {
+  public void runNotification(int id) throws ScheduleNotFoundException {
     // id를 입력받아 해당 일정의 notifyUser를 실행
 
 //    for (int i = 0; i < size; i++) {
@@ -398,11 +410,14 @@ public class ScheduleManager {
 //      }
 //    }
 
-    for (ScheduleItem item : schedules) {
-      if (item.getId() == id) {
-        item.notifyUser();
-        return;
-      }
-    }
+//    for (ScheduleItem item : schedules) {
+//      if (item.getId() == id) {
+//        item.notifyUser();
+//        return;
+//      }
+//    }
+
+    ScheduleItem item = findById(id);
+    item.notifyUser();
   }
 }

@@ -75,8 +75,14 @@ public class Main {
                                     String memo = scanner.nextLine();
 
                                     GeneralSchedule generalSchedule = new GeneralSchedule(title, description, startDate, endDate, startTime, endTime, priority, category, place, memo);
-                                    manager.addSchedule(generalSchedule);
-                                    System.out.println("일정이 등록되었습니다!");
+//                                    manager.addSchedule(generalSchedule);
+//                                    System.out.println("일정이 등록되었습니다!");
+                                    try {
+                                        manager.addSchedule(generalSchedule);
+                                        System.out.println("일정을 등록했습니다.");
+                                    } catch (ScheduleException e) {
+                                        System.out.println(e.getMessage());
+                                    }
                                     break;
 
                                 case 2:
@@ -93,8 +99,14 @@ public class Main {
                                     String host = scanner.nextLine();
 
                                     MeetingSchedule meetingSchedule = new MeetingSchedule(title, description, startDate, endDate, startTime, endTime, priority, location, participants, agenda, host);
-                                    manager.addSchedule(meetingSchedule);
-                                    System.out.println("일정이 등록되었습니다!");
+//                                    manager.addSchedule(meetingSchedule);
+//                                    System.out.println("일정이 등록되었습니다!");
+                                    try {
+                                        manager.addSchedule(meetingSchedule);
+                                        System.out.println("일정을 등록했습니다.");
+                                    } catch (ScheduleException e) {
+                                        System.out.println(e.getMessage());
+                                    }
                                     break;
 
                                 case 3:
@@ -105,8 +117,14 @@ public class Main {
                                     String assignedTo = scanner.nextLine();
 
                                     TaskSchedule taskSchedule = new TaskSchedule(title, description, startDate, endDate, startTime, endTime, priority, deadline, assignedTo);
-                                    manager.addSchedule(taskSchedule);
-                                    System.out.println("일정이 등록되었습니다!");
+//                                    manager.addSchedule(taskSchedule);
+//                                    System.out.println("일정이 등록되었습니다!");
+                                    try {
+                                        manager.addSchedule(taskSchedule);
+                                        System.out.println("일정을 등록했습니다.");
+                                    } catch (ScheduleException e) {
+                                        System.out.println(e.getMessage());
+                                    }
                                     break;
 
                                 case 4:
@@ -121,8 +139,14 @@ public class Main {
                                     ReminderSchedule.NotificationType notificationType = readNotificationType(scanner, "알림 Type 입력: ");
 
                                     ReminderSchedule reminderSchedule = new ReminderSchedule(title, description, startDate, endDate, startTime, endTime, priority, reminderTime, reminderMessage, notificationType);
-                                    manager.addSchedule(reminderSchedule);
-                                    System.out.println("일정이 등록되었습니다!");
+//                                    manager.addSchedule(reminderSchedule);
+//                                    System.out.println("일정이 등록되었습니다!");
+                                    try {
+                                        manager.addSchedule(reminderSchedule);
+                                        System.out.println("일정을 등록했습니다.");
+                                    } catch (ScheduleException e) {
+                                        System.out.println(e.getMessage());
+                                    }
                                     break;
                             }
 
@@ -145,7 +169,13 @@ public class Main {
                         int idSearch = scanner.nextInt();
                         scanner.nextLine();
 
-                        manager.displayScheduleById(idSearch);
+//                        manager.displayScheduleById(idSearch);
+                        try {
+                            manager.displayScheduleById(idSearch);
+                        } catch (ScheduleException e) {
+                            System.out.println(e.getMessage());
+                        }
+
                         break;
 
                     case 4:
@@ -163,10 +193,11 @@ public class Main {
 
                             // 수정 대상 찾기
                             ScheduleItem item = manager.findById(updateId);
-                            if (item == null) {
-                                System.out.println("수정하려는 일정이 없습니다.");
-                                break;
-                            }
+
+//                            if (item == null) {
+//                                System.out.println("수정하려는 일정이 없습니다.");
+//                                break;
+//                            }
 
                             System.out.print("새 제목 입력: ");
                             String newTitle = scanner.nextLine();
@@ -260,8 +291,12 @@ public class Main {
 
                             System.out.println("일정이 수정되었습니다!");
                             break;
+                        } catch (ScheduleException e) {
+                            System.out.println(e.getMessage());
+                            break;
                         } catch (IllegalArgumentException e) {
                             System.out.println(e.getMessage());
+                            break;
                         }
 
                         break;
@@ -274,8 +309,12 @@ public class Main {
                         int deleteId = scanner.nextInt();
                         scanner.nextLine();
 
-                        manager.deleteSchedule(deleteId);
-                        System.out.println("일정이 삭제되었습니당!");
+                        try {
+                            manager.deleteSchedule(deleteId);
+                            System.out.println("일정이 삭제되었습니당!");
+                        } catch (ScheduleException e) {
+                           System.out.println(e.getMessage());
+                        }
 
                         break;
 
@@ -287,8 +326,12 @@ public class Main {
                         int completeId = scanner.nextInt();
                         scanner.nextLine();
 
-                        manager.completeSchedule(completeId);
-                        System.out.println("일정이 완료되었습니다!");
+                        try {
+                            manager.completeSchedule(completeId);
+                            System.out.println("일정이 완료되었습니다!");
+                        } catch (ScheduleException e) {
+                            System.out.println(e.getMessage());
+                        }
                         break;
 
                     case 7:
