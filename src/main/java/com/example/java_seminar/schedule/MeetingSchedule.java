@@ -12,10 +12,10 @@ public class MeetingSchedule extends ScheduleItem {
     public MeetingSchedule(String title, String description,
                            LocalDate startDate, LocalDate endDate,
                            LocalTime startTime, LocalTime endTime,
-                           Priority priority,
+                           Priority priority, int userId,
                            String location, String participants,
                            String agenda, String host) {
-        super(title, description, startDate, endDate, startTime, endTime, priority);
+        super(title, description, startDate, endDate, startTime, endTime, priority, userId);
         this.location = location;
         this.participants = participants;
         this.agenda = agenda;
@@ -69,6 +69,7 @@ public class MeetingSchedule extends ScheduleItem {
         System.out.println("startTime: " + getStartTime());
         System.out.println("endTime: " + getEndTime());
         System.out.println("priority: " + getPriority());
+        System.out.println("userId: " + getUserId());
         System.out.println("createdAt: " + getCreatedAt());
         System.out.println("updatedAt: " + getUpdatedAt());
         System.out.println("location: " + getLocation());

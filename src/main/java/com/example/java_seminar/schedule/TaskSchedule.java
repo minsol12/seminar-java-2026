@@ -17,9 +17,9 @@ public class TaskSchedule extends ScheduleItem {
     public TaskSchedule(String title, String description,
                         LocalDate startDate, LocalDate endDate,
                         LocalTime startTime, LocalTime endTime,
-                        Priority priority,
+                        Priority priority, int userId,
                         LocalDate deadline, String assignedTo) {
-        super(title, description, startDate, endDate, startTime, endTime, priority);
+        super(title, description, startDate, endDate, startTime, endTime, priority, userId);
         this.deadline = deadline;
         this.progress = 0; // 새로 등록이니까 진행률 0
         this.taskStatus = TaskStatus.TODO; // 새로 등록이니까
@@ -78,6 +78,7 @@ public class TaskSchedule extends ScheduleItem {
         System.out.println("startTime: " + getStartTime());
         System.out.println("endTime: " + getEndTime());
         System.out.println("priority: " + getPriority());
+        System.out.println("userId: " + getUserId());
         System.out.println("createdAt: " + getCreatedAt());
         System.out.println("updatedAt: " + getUpdatedAt());
         System.out.println("deadline: " + getDeadline());

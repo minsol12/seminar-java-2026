@@ -17,10 +17,10 @@ public class ReminderSchedule extends ScheduleItem {
     public ReminderSchedule(String title, String description,
                             LocalDate startDate, LocalDate endDate,
                             LocalTime startTime, LocalTime endTime,
-                            Priority priority,
+                            Priority priority, int userId,
                             LocalTime reminderTime, String reminderMessage,
                             NotificationType notificationType) {
-        super(title, description, startDate, endDate, startTime, endTime, priority);
+        super(title, description, startDate, endDate, startTime, endTime, priority, userId);
         this.reminderTime = reminderTime;
         this.reminderMessage = reminderMessage;
         this.notificationType = notificationType;
@@ -74,6 +74,7 @@ public class ReminderSchedule extends ScheduleItem {
         System.out.println("startTime: " + getStartTime());
         System.out.println("endTime: " + getEndTime());
         System.out.println("priority: " + getPriority());
+        System.out.println("userId: " + getUserId());
         System.out.println("createdAt: " + getCreatedAt());
         System.out.println("updatedAt: " + getUpdatedAt());
         System.out.println("reminderTime: " + getReminderTime());

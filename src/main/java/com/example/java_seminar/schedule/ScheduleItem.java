@@ -26,6 +26,7 @@ public abstract class ScheduleItem {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isCompleted;
+    private int userId;
 
     private static int idCounter = 1;
 
@@ -37,7 +38,7 @@ public abstract class ScheduleItem {
         this.isCompleted = false;
     }
 
-    public ScheduleItem(String title, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, Priority priority) {
+    public ScheduleItem(String title, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, Priority priority, int userId) {
         this(); // id, createdAt, updatedAt, isCompleted 초기화
         this.title = title;
         this.description = description;
@@ -46,6 +47,7 @@ public abstract class ScheduleItem {
         this.startTime = startTime;
         this.endTime = endTime;
         this.priority = priority;
+        this.userId = userId;
         
         // 예외 처리 - startDate와 endDate 관계
 //        if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
@@ -66,6 +68,7 @@ public abstract class ScheduleItem {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public boolean isCompleted() { return isCompleted; }
+    public int getUserId() { return userId; }
 
     public void setTitle(String title) {
         this.title = title;
@@ -104,6 +107,11 @@ public abstract class ScheduleItem {
 
     public void setCompleted(boolean completed) {
         this.isCompleted = completed;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
         this.updatedAt = LocalDateTime.now();
     }
 

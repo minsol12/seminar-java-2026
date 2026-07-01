@@ -14,7 +14,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ScheduleManager manager = new ScheduleManager();
+        UserManager userManager = new UserManager();  // 사용자 존재 검증
 
+        // 일정 등록 전 userId를 먼저 입력받고,
+        // 그 사용자가 실제 존재할 때만 일정 등록되도록 만듥기
         while (true) {
             try {
                 System.out.println();
@@ -44,6 +47,10 @@ public class Main {
                                 System.out.println("잘못된 번호입니다.");
                                 break;
                             }
+
+                            System.out.print("사용자 ID 입력: ");
+                            int userId = scanner.nextInt();
+                            scanner.nextLine();
 
                             // 공통
                             System.out.print("제목 입력: ");
@@ -78,7 +85,7 @@ public class Main {
                                     System.out.print("메모 입력: ");
                                     String memo = scanner.nextLine();
 
-                                    GeneralSchedule generalSchedule = new GeneralSchedule(title, description, startDate, endDate, startTime, endTime, priority, category, place, memo);
+                                    GeneralSchedule generalSchedule = new GeneralSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, category, place, memo);
 //                                    manager.addSchedule(generalSchedule);
 //                                    System.out.println("일정이 등록되었습니다!");
                                     try {
@@ -102,7 +109,7 @@ public class Main {
                                     System.out.print("호스트 입력: ");
                                     String host = scanner.nextLine();
 
-                                    MeetingSchedule meetingSchedule = new MeetingSchedule(title, description, startDate, endDate, startTime, endTime, priority, location, participants, agenda, host);
+                                    MeetingSchedule meetingSchedule = new MeetingSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, location, participants, agenda, host);
 //                                    manager.addSchedule(meetingSchedule);
 //                                    System.out.println("일정이 등록되었습니다!");
                                     try {
@@ -120,7 +127,7 @@ public class Main {
                                     System.out.print("담당자 입력: ");
                                     String assignedTo = scanner.nextLine();
 
-                                    TaskSchedule taskSchedule = new TaskSchedule(title, description, startDate, endDate, startTime, endTime, priority, deadline, assignedTo);
+                                    TaskSchedule taskSchedule = new TaskSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, deadline, assignedTo);
 //                                    manager.addSchedule(taskSchedule);
 //                                    System.out.println("일정이 등록되었습니다!");
                                     try {
@@ -142,7 +149,7 @@ public class Main {
 //                                    System.out.print("알림 Type 입력: ");
                                     ReminderSchedule.NotificationType notificationType = readNotificationType(scanner, "알림 Type 입력: ");
 
-                                    ReminderSchedule reminderSchedule = new ReminderSchedule(title, description, startDate, endDate, startTime, endTime, priority, reminderTime, reminderMessage, notificationType);
+                                    ReminderSchedule reminderSchedule = new ReminderSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, reminderTime, reminderMessage, notificationType);
 //                                    manager.addSchedule(reminderSchedule);
 //                                    System.out.println("일정이 등록되었습니다!");
                                     try {

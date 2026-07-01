@@ -169,3 +169,7 @@ User, UserManager
 - User 검증 규칙 정리
 - UserManager에 사용자 목록 관리 기능 추가
 - 그 다음에 ScheduleItem.userId 연결
+
+---
+2026.07.15까지
+파일 저장까지 하기! - 사용자 정보, 일정 정보
