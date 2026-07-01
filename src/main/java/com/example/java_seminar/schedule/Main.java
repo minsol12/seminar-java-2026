@@ -9,6 +9,8 @@ import java.util.Scanner;
 // 마감 시간이 시작 시간보다 빠를 때 예외 처리가 입력이 다 끝나고 나오게 됨. 입력 즉시 판단해서 예외처리 되도록 수정하기
 
 public class Main {
+    private static final String SAVE_FILE = "data/schedules.txt";
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ScheduleManager manager = new ScheduleManager();
@@ -18,7 +20,9 @@ public class Main {
                 System.out.println();
                 System.out.println("1. 등록, 2. 전체 조회, 3. 상세 조회, 4. 수정, 5. 삭제, 6. 완료, " +
                                    "7. 제목 검색, 8. 날짜 검색, 9. 중요도 검색, " +
-                                   "10. 날짜순 정렬, 11. 중요도순 정렬, 12. 완료 여부순 정렬, 13. 종료");
+                                   "10. 날짜순 정렬, 11. 중요도순 정렬, 12. 완료 여부순 정렬, " +
+                                   "13. 저장, 14. 불러오기, 15. 종료");
+
                 System.out.print("번호를 입력해 주세요: ");
 
                 int choice = scanner.nextInt();
@@ -299,8 +303,6 @@ public class Main {
                             break;
                         }
 
-                        break;
-
                     case 5:
                         // 삭제
                         System.out.println("=== 일정 삭제 ===");
@@ -411,6 +413,24 @@ public class Main {
                         break;
 
                     case 13:
+                        try {
+                            manager.saveToFile(SAVE_FILE);
+                            System.out.println("일정을 저장했습니다.");
+                        } catch (ScheduleStorageException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+
+                    case 14:
+                        try {
+                            manager.loadFromFile(SAVE_FILE);
+                            System.out.println("일정을 불러왔습니다.");
+                        } catch (ScheduleStorageException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+
+                    case 15:
                         System.out.println("프로그램을 종료합니다.");
                         scanner.close();
                         return;

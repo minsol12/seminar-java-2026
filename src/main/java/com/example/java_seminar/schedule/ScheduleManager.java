@@ -1,5 +1,9 @@
 package com.example.java_seminar.schedule;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -419,5 +423,142 @@ public class ScheduleManager {
 
     ScheduleItem item = findById(id);
     item.notifyUser();
+  }
+
+  // 저장 메서드 추가
+  public void saveToFile(String filePath) throws ScheduleStorageException {
+    try {
+      Path path = Path.of(filePath);
+
+      if (path.getParent() != null) {
+        Files.createDirectories(path.getParent());
+      }
+
+      List<String> lines = new ArrayList<>();
+
+      for (ScheduleItem item : schedules) {
+        lines.add(toDataString(item));
+      }
+
+      Files.write(path, lines, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      throw new ScheduleStorageException("일정 저장에 실패했습니다.", e);
+    }
+  }
+
+  // 불러오기 메서드 추가
+  public void loadFromFile(String filePath) throws ScheduleStorageException {
+    try {
+      Path path = Path.of(filePath);
+
+      if (!Files.exists(path)) {
+        throw new ScheduleStorageException("저장 파일이 존재하지 않습니다.");
+      }
+
+      List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+
+      schedules.clear();
+
+      for (String line : lines) {
+        if (line.isBlank()) {
+          continue;
+        }
+        schedules.add(fromDataString(line));
+      }
+    } catch (IOException e) {
+      throw new ScheduleStorageException("일정 불러오기에 실패했습니다.", e);
+    }
+  }
+
+  // 저장용 문자열 변환 메서드
+  // 구분자 |
+  private String toDataString(ScheduleItem item) {
+    if (item instanceof GeneralSchedule) {
+      GeneralSchedule g = (GeneralSchedule) item;
+      return "GENERAL|" + g.getTitle() + "|" + g.getDescription() + "|" +
+              g.getStartDate() + "|" + g.getEndDate() + "|" +
+              g.getStartTime() + "|" + g.getEndTime() + "|" +
+              g.getPriority() + "|" +
+              g.getCategory() + "|" + g.getPlace() + "|" + g.getMemo();
+
+    } else if (item instanceof MeetingSchedule) {
+      MeetingSchedule m = (MeetingSchedule) item;
+      return "MEETING|" + m.getTitle() + "|" + m.getDescription() + "|" +
+              m.getStartDate() + "|" + m.getEndDate() + "|" +
+              m.getStartTime() + "|" + m.getEndTime() + "|" +
+              m.getPriority() + "|" +
+              m.getLocation() + "|" + m.getParticipants() + "|" +
+              m.getAgenda() + "|" + m.getHost();
+
+    } else if (item instanceof TaskSchedule) {
+      TaskSchedule t = (TaskSchedule) item;
+      return "TASK|" + t.getTitle() + "|" + t.getDescription() + "|" +
+              t.getStartDate() + "|" + t.getEndDate() + "|" +
+              t.getStartTime() + "|" + t.getEndTime() + "|" +
+              t.getPriority() + "|" +
+              t.getDeadline() + "|" + t.getAssignedTo();
+
+    } else if (item instanceof ReminderSchedule) {
+      ReminderSchedule r = (ReminderSchedule) item;
+      return "REMINDER|" + r.getTitle() + "|" + r.getDescription() + "|" +
+              r.getStartDate() + "|" + r.getEndDate() + "|" +
+              r.getStartTime() + "|" + r.getEndTime() + "|" +
+              r.getPriority() + "|" +
+              r.getReminderTime() + "|" + r.getReminderMessage() + "|" +
+              r.getNotificationType();
+    }
+
+    throw new IllegalArgumentException("지원하지 않는 일정 타입입니다.");
+  }
+
+  // 불러오기용 파싱 메서드
+  private ScheduleItem fromDataString(String line) throws ScheduleStorageException {
+    String[] parts = line.split("\\|");
+
+    try {
+      switch (parts[0]) {
+        case "GENERAL":
+          return new GeneralSchedule(
+                  parts[1], parts[2],
+                  LocalDate.parse(parts[3]), LocalDate.parse(parts[4]),
+                  LocalTime.parse(parts[5]), LocalTime.parse(parts[6]),
+                  ScheduleItem.Priority.valueOf(parts[7]),
+                  parts[8], parts[9], parts[10]
+          );
+
+        case "MEETING":
+          return new MeetingSchedule(
+                  parts[1], parts[2],
+                  LocalDate.parse(parts[3]), LocalDate.parse(parts[4]),
+                  LocalTime.parse(parts[5]), LocalTime.parse(parts[6]),
+                  ScheduleItem.Priority.valueOf(parts[7]),
+                  parts[8], parts[9], parts[10], parts[11]
+          );
+
+        case "TASK":
+          return new TaskSchedule(
+                  parts[1], parts[2],
+                  LocalDate.parse(parts[3]), LocalDate.parse(parts[4]),
+                  LocalTime.parse(parts[5]), LocalTime.parse(parts[6]),
+                  ScheduleItem.Priority.valueOf(parts[7]),
+                  LocalDate.parse(parts[8]), parts[9]
+          );
+
+        case "REMINDER":
+          return new ReminderSchedule(
+                  parts[1], parts[2],
+                  LocalDate.parse(parts[3]), LocalDate.parse(parts[4]),
+                  LocalTime.parse(parts[5]), LocalTime.parse(parts[6]),
+                  ScheduleItem.Priority.valueOf(parts[7]),
+                  LocalTime.parse(parts[8]), parts[9],
+                  ReminderSchedule.NotificationType.valueOf(parts[10])
+          );
+
+        default:
+          throw new ScheduleStorageException("알 수 없는 일정 타입입니다.");
+      }
+    } catch (Exception e) {
+      throw new ScheduleStorageException("저장 파일 형식이 올바르지 않습니다.");
+    }
   }
 }

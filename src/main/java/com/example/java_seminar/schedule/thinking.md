@@ -83,3 +83,5 @@
    - 단, readDate, readTime, readPriority처럼 재입력 받는 메서드는 그 안에서 잡아도 됨.
    - Exception 클래스 새로 만들기 (ScheduleException, ScheduleNotFoundException, ScheduleConflictException, ScheduleStorageException)
 3. 파일 저장하는 기능 만들기 - db 아님
+   - txt 파일
+   - 일정 1개 = 파일 1줄
