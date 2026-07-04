@@ -25,7 +25,7 @@
 - 입금, 출금, 이체, 잔액 조회 기능 처리
 - 잘못된 금액 입력과 잔액 부족 상황에 대한 예외 처리
 
-상세 보기: [account README](/abs/C:/Users/moonl/development/java_seminar/src/main/java/com/example/java_seminar/account/README.md)
+상세 보기: [account README](src/main/java/com/example/java_seminar/account/README.md)
 
 ### Schedule
 
@@ -38,7 +38,7 @@
 - 파일 저장 및 불러오기 기능 구현
 - 사용자 정의 예외로 일정 관련 오류 분리
 
-상세 보기: [schedule README](/abs/C:/Users/moonl/development/java_seminar/src/main/java/com/example/java_seminar/schedule/README.md)
+상세 보기: [schedule README](src/main/java/com/example/java_seminar/schedule/README.md)
 
 ## Run
 
