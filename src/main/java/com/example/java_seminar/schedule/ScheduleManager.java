@@ -428,20 +428,26 @@ public class ScheduleManager {
   // 저장 메서드 추가
   public void saveToFile(String filePath) throws ScheduleStorageException {
     try {
-      Path path = Path.of(filePath);
+      Path path = Path.of(filePath);  // Path.of("경로") - 문자열로 된 파일 경로를 Java가 이해하고 다룰 수 있는 객체로 바꾸는 변환기
 
+      // 경로의 부모 디렉토리가 존재하는지 확인
       if (path.getParent() != null) {
+        // 부모 디렉토리가 없으면 경로를 포함한 모든 디렉토리를 생성
         Files.createDirectories(path.getParent());
       }
 
+      // 파일에 쓸 내용을 저장할 리스트 생성
       List<String> lines = new ArrayList<>();
 
+      // 현재 가지고 있는 일정들을 순회하며 데이터 문자열로 변환 후 리스트에 추가
       for (ScheduleItem item : schedules) {
         lines.add(toDataString(item));
       }
 
+      // 리스트의 모든 데이터를 파일로 쓰기 (UTF-8 인코딩 사용)
       Files.write(path, lines, StandardCharsets.UTF_8);
     } catch (IOException e) {
+      // 입출력 오류 발생 시 사용자 정의 예외로 감싸서 던짐
       throw new ScheduleStorageException("일정 저장에 실패했습니다.", e);
     }
   }
@@ -451,15 +457,20 @@ public class ScheduleManager {
     try {
       Path path = Path.of(filePath);
 
+      // 파일이 실제로 존재하는지 확인, 없으면 예외 발생
       if (!Files.exists(path)) {
         throw new ScheduleStorageException("저장 파일이 존재하지 않습니다.");
       }
 
+      // 파일의 모든 줄을 읽어와 리스트로 저장
       List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
 
+      // 현재 일정 리스트를 초기화하여 중복 방지
       schedules.clear();
 
+      // 읽어온 각 줄을 객체로 복원하여 리스트에 추가
       for (String line : lines) {
+        // 빈 줄은 건너뛰기
         if (line.isBlank()) {
           continue;
         }
@@ -473,6 +484,7 @@ public class ScheduleManager {
   // 저장용 문자열 변환 메서드
   // 구분자 |
   private String toDataString(ScheduleItem item) {
+    // 인스턴스 타입 확인 (General, Meeting, Task, Reminder)
     if (item instanceof GeneralSchedule) {
       GeneralSchedule g = (GeneralSchedule) item;
       return "GENERAL|" + g.getTitle() + "|" + g.getDescription() + "|" +
@@ -513,9 +525,11 @@ public class ScheduleManager {
 
   // 불러오기용 파싱 메서드
   private ScheduleItem fromDataString(String line) throws ScheduleStorageException {
+    // 구분자(|)를 기준으로 문자열을 쪼개어 배열 생성
     String[] parts = line.split("\\|");
 
     try {
+      // 첫 번째 요소(인덱스 0)를 보고 타입 결정
       switch (parts[0]) {
         case "GENERAL":
           return new GeneralSchedule(

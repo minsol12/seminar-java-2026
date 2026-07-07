@@ -17,14 +17,15 @@ public class Main {
         UserManager userManager = new UserManager();  // 사용자 존재 검증
 
         // 일정 등록 전 userId를 먼저 입력받고,
-        // 그 사용자가 실제 존재할 때만 일정 등록되도록 만듥기
+        // 그 사용자가 실제 존재할 때만 일정 등록되도록 만들기
         while (true) {
             try {
                 System.out.println();
                 System.out.println("1. 등록, 2. 전체 조회, 3. 상세 조회, 4. 수정, 5. 삭제, 6. 완료, " +
                                    "7. 제목 검색, 8. 날짜 검색, 9. 중요도 검색, " +
                                    "10. 날짜순 정렬, 11. 중요도순 정렬, 12. 완료 여부순 정렬, " +
-                                   "13. 저장, 14. 불러오기, 15. 종료");
+                                   "13. 저장, 14. 불러오기, 15. 사용자 등록, " +
+                                   "16. 전체 사용자 조회, 17. 사용자 상세 조회, 18. 사용자 수정, 20. 종료");
 
                 System.out.print("번호를 입력해 주세요: ");
 
@@ -51,6 +52,8 @@ public class Main {
                             System.out.print("사용자 ID 입력: ");
                             int userId = scanner.nextInt();
                             scanner.nextLine();
+
+                            userManager.findById(userId);
 
                             // 공통
                             System.out.print("제목 입력: ");
@@ -86,14 +89,19 @@ public class Main {
                                     String memo = scanner.nextLine();
 
                                     GeneralSchedule generalSchedule = new GeneralSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, category, place, memo);
-//                                    manager.addSchedule(generalSchedule);
-//                                    System.out.println("일정이 등록되었습니다!");
-                                    try {
-                                        manager.addSchedule(generalSchedule);
-                                        System.out.println("일정을 등록했습니다.");
-                                    } catch (ScheduleException e) {
-                                        System.out.println(e.getMessage());
-                                    }
+
+                                    manager.addSchedule(generalSchedule);
+                                    System.out.println("일정이 등록되었습니다!");
+
+                                    // 바깥에서 다 받도록 하고 안쪽 try-catch는 모두 제거함.
+//                                    try {
+//                                        manager.addSchedule(generalSchedule);
+//                                        System.out.println("일정을 등록했습니다.");
+//                                    } catch (ScheduleException e) {
+//                                        System.out.println(e.getMessage());
+//                                    } catch (IllegalArgumentException e) {
+//                                        System.out.println(e.getMessage());
+//                                    }
                                     break;
 
                                 case 2:
@@ -110,14 +118,15 @@ public class Main {
                                     String host = scanner.nextLine();
 
                                     MeetingSchedule meetingSchedule = new MeetingSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, location, participants, agenda, host);
-//                                    manager.addSchedule(meetingSchedule);
-//                                    System.out.println("일정이 등록되었습니다!");
-                                    try {
-                                        manager.addSchedule(meetingSchedule);
-                                        System.out.println("일정을 등록했습니다.");
-                                    } catch (ScheduleException e) {
-                                        System.out.println(e.getMessage());
-                                    }
+
+                                    manager.addSchedule(meetingSchedule);
+                                    System.out.println("일정이 등록되었습니다!");
+//                                    try {
+//                                        manager.addSchedule(meetingSchedule);
+//                                        System.out.println("일정을 등록했습니다.");
+//                                    } catch (ScheduleException e) {
+//                                        System.out.println(e.getMessage());
+//                                    }
                                     break;
 
                                 case 3:
@@ -128,14 +137,15 @@ public class Main {
                                     String assignedTo = scanner.nextLine();
 
                                     TaskSchedule taskSchedule = new TaskSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, deadline, assignedTo);
-//                                    manager.addSchedule(taskSchedule);
-//                                    System.out.println("일정이 등록되었습니다!");
-                                    try {
-                                        manager.addSchedule(taskSchedule);
-                                        System.out.println("일정을 등록했습니다.");
-                                    } catch (ScheduleException e) {
-                                        System.out.println(e.getMessage());
-                                    }
+
+                                    manager.addSchedule(taskSchedule);
+                                    System.out.println("일정이 등록되었습니다!");
+//                                    try {
+//                                        manager.addSchedule(taskSchedule);
+//                                        System.out.println("일정을 등록했습니다.");
+//                                    } catch (ScheduleException e) {
+//                                        System.out.println(e.getMessage());
+//                                    }
                                     break;
 
                                 case 4:
@@ -150,17 +160,20 @@ public class Main {
                                     ReminderSchedule.NotificationType notificationType = readNotificationType(scanner, "알림 Type 입력: ");
 
                                     ReminderSchedule reminderSchedule = new ReminderSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, reminderTime, reminderMessage, notificationType);
-//                                    manager.addSchedule(reminderSchedule);
-//                                    System.out.println("일정이 등록되었습니다!");
-                                    try {
-                                        manager.addSchedule(reminderSchedule);
-                                        System.out.println("일정을 등록했습니다.");
-                                    } catch (ScheduleException e) {
-                                        System.out.println(e.getMessage());
-                                    }
+
+                                    manager.addSchedule(reminderSchedule);
+                                    System.out.println("일정이 등록되었습니다!");
+//                                    try {
+//                                        manager.addSchedule(reminderSchedule);
+//                                        System.out.println("일정을 등록했습니다.");
+//                                    } catch (ScheduleException e) {
+//                                        System.out.println(e.getMessage());
+//                                    }
                                     break;
                             }
 
+                        } catch (ScheduleException e) {
+                            System.out.println(e.getMessage());
                         } catch (IllegalArgumentException e) {
                             System.out.println(e.getMessage());
                         }
@@ -437,7 +450,78 @@ public class Main {
                         }
                         break;
 
+                    // 사용자 기능 추가
+                    // 사용자 등록
+                    // User 생성/수정 검증 실패 ->IllegalArgumentException
+                    // 이메일 중복 -> ScheduleException
                     case 15:
+                        try {
+                            System.out.println("=== 사용자 등록 ===");
+
+                            System.out.print("이름 입력: ");
+                            String userName = scanner.nextLine();
+
+                            System.out.print("이메일 입력: ");
+                            String userEmail = scanner.nextLine();
+
+                            User user = new User(userName, userEmail);
+                            userManager.addUser(user);
+
+                            System.out.println("사용자가 등록되었습니다.");
+                        } catch (ScheduleException e) {
+                            System.out.println(e.getMessage());
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+
+                    // 전체 사용자 조회
+                    case 16:
+                        System.out.println("=== 전체 사용자 조회 ===");
+                        userManager.displayAllUsers();
+                        break;
+
+                    // 사용자 상세 조회
+                    case 17:
+                        try {
+                            System.out.println("=== 사용자 상세 조회 ===");
+                            System.out.print("조회할 사용자 ID: ");
+
+                            int userSearchId = scanner.nextInt();
+                            scanner.nextLine();
+
+                            userManager.displayUserById(userSearchId);
+                        } catch (ScheduleException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+
+                    // 사용자 수정
+                    case 18:
+                        try {
+                            System.out.println("=== 사용자 수정 ===");
+                            System.out.print("수정할 사용자 ID: ");
+
+                            int updateUserId = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.print("새 이름 입력: ");
+                            String newUserName = scanner.nextLine();
+
+                            System.out.print("새 이메일 입력: ");
+                            String newUserEmail = scanner.nextLine();
+
+                            userManager.updateUser(updateUserId, newUserName, newUserEmail);
+
+                            System.out.println("사용자 정보가 수정되었습니다.");
+                        } catch (ScheduleException e) {
+                            System.out.println(e.getMessage());
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+
+                    case 20:
                         System.out.println("프로그램을 종료합니다.");
                         scanner.close();
                         return;
