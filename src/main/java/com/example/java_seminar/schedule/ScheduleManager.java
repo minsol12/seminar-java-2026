@@ -1,5 +1,6 @@
 package com.example.java_seminar.schedule;
 
+import jakarta.annotation.Priority;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -21,7 +22,7 @@ public class ScheduleManager {
     // 1. 충돌 확인 (checkConflict 호출)
     int targetIndex = -1;
 
-    if (checkConflict(targetIndex, item.getStartDate(), item.getStartTime(), item.getEndDate(), item.getEndTime())) {
+    if (checkConflict(targetIndex, item.getUserId(), item.getStartDate(), item.getStartTime(), item.getEndDate(), item.getEndTime())) {
       // 충돌이 발생하면 함수를 여기서 종료 (등록 안 함)
 //      System.out.println("일정이 겹쳐서 등록할 수 없습니다.");
 //      return;
@@ -131,7 +132,7 @@ public class ScheduleManager {
 
     ScheduleItem.validateDateTime(startDate, endDate, startTime, endTime);
 
-    if (checkConflict(targetIndex, startDate, startTime, endDate, endTime)) {
+    if (checkConflict(targetIndex, schedules.get(targetIndex).getUserId(), startDate, startTime, endDate, endTime)) {
 //      System.out.println("일정이 겹쳐서 수정할 수 없습니다.");
 //      return;
       throw new ScheduleConflictException("일정이 겹쳐서 수정할 수 없습니다.");
@@ -358,7 +359,7 @@ public class ScheduleManager {
     schedules.sort((a, b) -> Boolean.compare(a.isCompleted(), b.isCompleted()));
   }
 
-  public boolean checkConflict(int targetIndex, LocalDate newStartDate, LocalTime newStartTime, LocalDate newEndDate, LocalTime newEndTime) {
+  public boolean checkConflict(int targetIndex, int newUserId, LocalDate newStartDate, LocalTime newStartTime, LocalDate newEndDate, LocalTime newEndTime) {
     // 등록 또는 수정 시 기존 일정과 시간이 겹치는지 확인
 
 //    for (int i = 0; i < size; i++) {
@@ -368,6 +369,11 @@ public class ScheduleManager {
       if (i == targetIndex) {
         continue;
       }
+
+      if (schedules.get(i).getUserId() != newUserId) {
+        continue;
+      }
+
       // 같은지 - equals / 기존 일정과 시간 / isBefore, isAfter
 
       // 날짜 데이터와 시간 데이터를 합쳐서 하나의 시간 객체로
@@ -391,12 +397,14 @@ public class ScheduleManager {
 //        schedules[i].getEndDate();
 //        schedules[i].getEndTime();
 
-        schedules.get(i).getId();
-        schedules.get(i).getTitle();
-        schedules.get(i).getStartDate();
-        schedules.get(i).getStartTime();
-        schedules.get(i).getEndDate();
-        schedules.get(i).getEndTime();
+//        schedules.get(i).getId();
+//        schedules.get(i).getTitle();
+//        schedules.get(i).getStartDate();
+//        schedules.get(i).getStartTime();
+//        schedules.get(i).getEndDate();
+//        schedules.get(i).getEndTime();
+
+        schedules.get(i).displayInfo();
 
         return true;
       }
@@ -579,4 +587,120 @@ public class ScheduleManager {
       throw new ScheduleStorageException("저장 파일 형식이 올바르지 않습니다.");
     }
   }
+
+  //- displaySchedulesByUserId
+  // 특정 사용자 ID 입력 -> 그 사용자에게 속한 일정만 출력
+  // userId 받기 -> schedules 순회 -> item.getUserId() == userId만 출력
+
+  public void displaySchedulesByUserId(int userId) {
+    boolean found = false;
+
+    for (ScheduleItem item : schedules) {
+      if (item.getUserId() == userId) {
+        item.displayInfo();
+        System.out.println();
+        found = true;
+      }
+    }
+
+    if (!found) {
+      System.out.println("해당 사용자에게 등록된 일정이 없습니다.");
+    }
+  }
+
+  //- searchByUserAndTitle
+  public ScheduleItem[] searchByUserAndTitle(int userId, String title) {
+    List<ScheduleItem> result = new ArrayList<>();
+
+    for (ScheduleItem item : schedules) {
+      if (item.getUserId() == userId && item.getTitle() != null && item.getTitle().contains(title)) {
+        result.add(item);
+      }
+    }
+
+    return result.toArray(new ScheduleItem[0]);
+  }
+
+  //- searchByUserAndDate
+  public ScheduleItem[] searchByUserAndDate(int userId, LocalDate date) {
+    List<ScheduleItem> result = new ArrayList<>();
+
+    for (ScheduleItem item : schedules) {
+      if (item.getUserId() == userId && item.getStartDate() != null && item.getStartDate().equals(date)) {
+        result.add(item);
+      }
+    }
+
+    return result.toArray(new ScheduleItem[0]);
+  }
+
+  //- searchByUserAndPriority
+  public ScheduleItem[] searchByUserAndPriority(int userId, ScheduleItem.Priority priority) {
+    List<ScheduleItem> result = new ArrayList<>();
+
+    for (ScheduleItem item : schedules) {
+      if (item.getUserId() == userId && item.getPriority() == priority) {
+        result.add(item);
+      }
+    }
+
+    return result.toArray(new ScheduleItem[0]);
+  }
+
+  //- sortByUserAndDate
+  // 특정 사용자의 일정만 따로 모아서 정렬하고 반환
+  public ScheduleItem[] sortByUserAndDate(int userId) {
+    List<ScheduleItem> result = new ArrayList<>();
+
+    for (ScheduleItem item : schedules) {
+      if (item.getUserId() == userId) {
+        result.add(item);
+      }
+    }
+
+    result.sort((a, b) -> {
+      int cmp = a.getStartDate().compareTo(b.getStartDate());
+
+      if (cmp != 0) {
+        return cmp;
+      }
+
+      return a.getStartTime().compareTo(b.getStartTime());
+    });
+
+    return result.toArray(new ScheduleItem[0]);
+  }
+
+  //- sortByUserAndPriority
+  public ScheduleItem[] sortByUserAndPriority(int userId) {
+    List<ScheduleItem> result = new ArrayList<>();
+
+    for (ScheduleItem item : schedules) {
+      if (item.getUserId() == userId) {
+        result.add(item);
+      }
+    }
+
+    result.sort((a, b) -> a.getPriority().compareTo(b.getPriority()));
+
+    return result.toArray(new ScheduleItem[0]);
+  }
+
+  //- sortByUserAndCompletion
+  public ScheduleItem[] sortByUserAndCompletion(int userId) {
+    List<ScheduleItem> result = new ArrayList<>();
+
+    for (ScheduleItem item : schedules) {
+      if (item.getUserId() == userId) {
+        result.add(item);
+      }
+    }
+
+    result.sort((a, b) -> Boolean.compare(a.isCompleted(), b.isCompleted()));
+
+    return result.toArray(new ScheduleItem[0]);
+  }
+
+  //- deleteUser
+
 }

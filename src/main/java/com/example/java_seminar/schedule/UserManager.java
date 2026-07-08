@@ -84,14 +84,4 @@ public class UserManager {
 
     return false;
   }
-
-//- deleteUser
-//- displaySchedulesByUserId
-//- searchByUserAndTitle
-//- searchByUserAndDate
-//- searchByUserAndPriority
-//- sortByUserAndDate
-//- sortByUserAndPriority
-//- sortByUserAndCompletion
-
 }
