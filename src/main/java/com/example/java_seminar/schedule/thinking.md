@@ -164,12 +164,13 @@
 - sortByUserAndCompletion - 특정 사용자 일정 중 완료되지 않은 일정이 먼저 나오도록 정렬
 
 ---
-User, UserManager
+## User, UserManager
 
 - User 검증 규칙 정리
 - UserManager에 사용자 목록 관리 기능 추가
 - 그 다음에 ScheduleItem.userId 연결
 
+
 ---
-2026.07.15까지
+## 2026.07.15까지
 파일 저장까지 하기! - 사용자 정보, 일정 정보
