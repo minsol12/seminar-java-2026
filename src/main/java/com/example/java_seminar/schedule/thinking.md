@@ -174,3 +174,4 @@
 ---
 ## 2026.07.15까지
 파일 저장까지 하기! - 사용자 정보, 일정 정보
+user는 user끼리, schedule은 schedule끼리, exception은 exception끼리 패키지 또 만들어서 묶기
