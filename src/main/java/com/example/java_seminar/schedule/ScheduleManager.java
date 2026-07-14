@@ -472,9 +472,7 @@ public class ScheduleManager {
 
       // 파일의 모든 줄을 읽어와 리스트로 저장
       List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-
-      // 현재 일정 리스트를 초기화하여 중복 방지
-      schedules.clear();
+      List<ScheduleItem> loadedSchedules = new ArrayList<>();
 
       // 읽어온 각 줄을 객체로 복원하여 리스트에 추가
       for (String line : lines) {
@@ -482,8 +480,13 @@ public class ScheduleManager {
         if (line.isBlank()) {
           continue;
         }
-        schedules.add(fromDataString(line));
+//        schedules.add(fromDataString(line));
+        loadedSchedules.add(fromDataString(line));
       }
+
+      // 현재 일정 리스트를 초기화하여 중복 방지
+      schedules.clear();
+      schedules.addAll(loadedSchedules);
     } catch (IOException e) {
       throw new ScheduleStorageException("일정 불러오기에 실패했습니다.", e);
     }
