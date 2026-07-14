@@ -495,7 +495,7 @@ public class ScheduleManager {
     // 인스턴스 타입 확인 (General, Meeting, Task, Reminder)
     if (item instanceof GeneralSchedule) {
       GeneralSchedule g = (GeneralSchedule) item;
-      return "GENERAL|" + g.getTitle() + "|" + g.getDescription() + "|" +
+      return "GENERAL|" + g.getId() + "|" + g.getTitle() + "|" + g.getDescription() + "|" +
               g.getStartDate() + "|" + g.getEndDate() + "|" +
               g.getStartTime() + "|" + g.getEndTime() + "|" +
               g.getPriority() + "|" + g.getUserId() + "|" +
@@ -503,7 +503,7 @@ public class ScheduleManager {
 
     } else if (item instanceof MeetingSchedule) {
       MeetingSchedule m = (MeetingSchedule) item;
-      return "MEETING|" + m.getTitle() + "|" + m.getDescription() + "|" +
+      return "MEETING|" + m.getId() + "|" + m.getTitle() + "|" + m.getDescription() + "|" +
               m.getStartDate() + "|" + m.getEndDate() + "|" +
               m.getStartTime() + "|" + m.getEndTime() + "|" +
               m.getPriority() + "|" + m.getUserId() + "|" +
@@ -512,7 +512,7 @@ public class ScheduleManager {
 
     } else if (item instanceof TaskSchedule) {
       TaskSchedule t = (TaskSchedule) item;
-      return "TASK|" + t.getTitle() + "|" + t.getDescription() + "|" +
+      return "TASK|" + t.getId() + "|" + t.getTitle() + "|" + t.getDescription() + "|" +
               t.getStartDate() + "|" + t.getEndDate() + "|" +
               t.getStartTime() + "|" + t.getEndTime() + "|" +
               t.getPriority() + "|" + t.getUserId() + "|" +
@@ -520,7 +520,7 @@ public class ScheduleManager {
 
     } else if (item instanceof ReminderSchedule) {
       ReminderSchedule r = (ReminderSchedule) item;
-      return "REMINDER|" + r.getTitle() + "|" + r.getDescription() + "|" +
+      return "REMINDER|" + r.getId() + "|" + r.getTitle() + "|" + r.getDescription() + "|" +
               r.getStartDate() + "|" + r.getEndDate() + "|" +
               r.getStartTime() + "|" + r.getEndTime() + "|" +
               r.getPriority() + "|" + r.getUserId() + "|" +
@@ -541,43 +541,47 @@ public class ScheduleManager {
       switch (parts[0]) {
         case "GENERAL":
           return new GeneralSchedule(
-                  parts[1], parts[2],
-                  LocalDate.parse(parts[3]), LocalDate.parse(parts[4]),
-                  LocalTime.parse(parts[5]), LocalTime.parse(parts[6]),
-                  ScheduleItem.Priority.valueOf(parts[7]),
-                  Integer.parseInt(parts[8]),
-                  parts[9], parts[10], parts[11]
+                  Integer.parseInt(parts[1]),
+                  parts[2], parts[3],
+                  LocalDate.parse(parts[4]), LocalDate.parse(parts[5]),
+                  LocalTime.parse(parts[6]), LocalTime.parse(parts[7]),
+                  ScheduleItem.Priority.valueOf(parts[8]),
+                  Integer.parseInt(parts[9]),
+                  parts[10], parts[11], parts[12]
           );
 
         case "MEETING":
           return new MeetingSchedule(
-                  parts[1], parts[2],
-                  LocalDate.parse(parts[3]), LocalDate.parse(parts[4]),
-                  LocalTime.parse(parts[5]), LocalTime.parse(parts[6]),
-                  ScheduleItem.Priority.valueOf(parts[7]),
-                  Integer.parseInt(parts[8]),
-                  parts[9], parts[10], parts[11], parts[12]
+                  Integer.parseInt(parts[1]),
+                  parts[2], parts[3],
+                  LocalDate.parse(parts[4]), LocalDate.parse(parts[5]),
+                  LocalTime.parse(parts[6]), LocalTime.parse(parts[7]),
+                  ScheduleItem.Priority.valueOf(parts[8]),
+                  Integer.parseInt(parts[9]),
+                  parts[10], parts[11], parts[12], parts[13]
           );
 
         case "TASK":
           return new TaskSchedule(
-                  parts[1], parts[2],
-                  LocalDate.parse(parts[3]), LocalDate.parse(parts[4]),
-                  LocalTime.parse(parts[5]), LocalTime.parse(parts[6]),
-                  ScheduleItem.Priority.valueOf(parts[7]),
-                  Integer.parseInt(parts[8]),
-                  LocalDate.parse(parts[9]), parts[10]
+                  Integer.parseInt(parts[1]),
+                  parts[2], parts[3],
+                  LocalDate.parse(parts[4]), LocalDate.parse(parts[5]),
+                  LocalTime.parse(parts[6]), LocalTime.parse(parts[7]),
+                  ScheduleItem.Priority.valueOf(parts[8]),
+                  Integer.parseInt(parts[9]),
+                  LocalDate.parse(parts[10]), parts[11]
           );
 
         case "REMINDER":
           return new ReminderSchedule(
-                  parts[1], parts[2],
-                  LocalDate.parse(parts[3]), LocalDate.parse(parts[4]),
-                  LocalTime.parse(parts[5]), LocalTime.parse(parts[6]),
-                  ScheduleItem.Priority.valueOf(parts[7]),
-                  Integer.parseInt(parts[8]),
-                  LocalTime.parse(parts[9]), parts[10],
-                  ReminderSchedule.NotificationType.valueOf(parts[11])
+                  Integer.parseInt(parts[1]),
+                  parts[2], parts[3],
+                  LocalDate.parse(parts[4]), LocalDate.parse(parts[5]),
+                  LocalTime.parse(parts[6]), LocalTime.parse(parts[7]),
+                  ScheduleItem.Priority.valueOf(parts[8]),
+                  Integer.parseInt(parts[9]),
+                  LocalTime.parse(parts[10]), parts[11],
+                  ReminderSchedule.NotificationType.valueOf(parts[12])
           );
 
         default:

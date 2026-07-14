@@ -19,6 +19,17 @@ public class GeneralSchedule extends ScheduleItem {
         this.memo = memo;
     }
 
+    public GeneralSchedule(int id, String title, String description,
+                           LocalDate startDate, LocalDate endDate,
+                           LocalTime startTime, LocalTime endTime,
+                           Priority priority, int userId,
+                           String category, String place, String memo) {
+        super(id, title, description, startDate, endDate, startTime, endTime, priority, userId);
+        this.category = category;
+        this.place = place;
+        this.memo = memo;
+    }
+
     public String getCategory() { return category; }
     public String getPlace() { return place; }
     public String getMemo() { return memo; }

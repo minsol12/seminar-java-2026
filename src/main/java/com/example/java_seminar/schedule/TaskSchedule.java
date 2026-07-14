@@ -26,6 +26,18 @@ public class TaskSchedule extends ScheduleItem {
         this.assignedTo = assignedTo;
     }
 
+    public TaskSchedule(int id, String title, String description,
+                        LocalDate startDate, LocalDate endDate,
+                        LocalTime startTime, LocalTime endTime,
+                        Priority priority, int userId,
+                        LocalDate deadline, String assignedTo) {
+        super(id, title, description, startDate, endDate, startTime, endTime, priority, userId);
+        this.deadline = deadline;
+        this.progress = 0;
+        this.taskStatus = TaskStatus.TODO;
+        this.assignedTo = assignedTo;
+    }
+
     public LocalDate getDeadline() {
         return deadline;
     }

@@ -22,6 +22,19 @@ public class MeetingSchedule extends ScheduleItem {
         this.host = host;
     }
 
+    public MeetingSchedule(int id, String title, String description,
+                           LocalDate startDate, LocalDate endDate,
+                           LocalTime startTime, LocalTime endTime,
+                           Priority priority, int userId,
+                           String location, String participants,
+                           String agenda, String host) {
+        super(id, title, description, startDate, endDate, startTime, endTime, priority, userId);
+        this.location = location;
+        this.participants = participants;
+        this.agenda = agenda;
+        this.host = host;
+    }
+
     public String getLocation() {
         return location;
     }

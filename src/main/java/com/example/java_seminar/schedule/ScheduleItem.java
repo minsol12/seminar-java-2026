@@ -30,16 +30,22 @@ public abstract class ScheduleItem {
 
     private static int idCounter = 1;
 
-    public ScheduleItem() {
+//    public ScheduleItem() {
+//        this.id = idCounter++;
+//        LocalDateTime now = LocalDateTime.now();
+//        this.createdAt = now;
+//        this.updatedAt = now;
+//        this.isCompleted = false;
+//    }
+
+    public ScheduleItem(String title, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, Priority priority, int userId) {
+//        this(); // id, createdAt, updatedAt, isCompleted 초기화
         this.id = idCounter++;
         LocalDateTime now = LocalDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
         this.isCompleted = false;
-    }
 
-    public ScheduleItem(String title, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, Priority priority, int userId) {
-        this(); // id, createdAt, updatedAt, isCompleted 초기화
         this.title = title;
         this.description = description;
         this.startDate = startDate;
@@ -55,6 +61,33 @@ public abstract class ScheduleItem {
 //        }
 
         validateDateTime(startDate, endDate, startTime, endTime);
+    }
+
+    // 복원용 생성자
+    public ScheduleItem(int id, String title, String description,
+                        LocalDate startDate, LocalDate endDate,
+                        LocalTime startTime, LocalTime endTime,
+                        Priority priority, int userId) {
+        this.id = id;
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+        this.isCompleted = false;
+
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.priority = priority;
+        this.userId = userId;
+
+        validateDateTime(startDate, endDate, startTime, endTime);
+
+        if (id >= idCounter) {
+            idCounter = id + 1;
+        }
     }
 
     public int getId() { return id; }
