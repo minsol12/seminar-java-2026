@@ -202,3 +202,5 @@ user는 user끼리, schedule은 schedule끼리, exception은 exception끼리 패
 - 복원용 생성자에 isCompleted를 받을 수 있게 해야 함.
 
 - progress, taskStatus 저장 안됨 -> 불러오면 0, TODO로 초기화됨
+
+- isReminderSent = true가 불러오기하면 다시 false로 초기화됨

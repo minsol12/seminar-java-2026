@@ -32,12 +32,12 @@ public class ReminderSchedule extends ScheduleItem {
                             LocalTime startTime, LocalTime endTime,
                             Priority priority, int userId, boolean isCompleted,
                             LocalTime reminderTime, String reminderMessage,
-                            NotificationType notificationType) {
+                            NotificationType notificationType, boolean isReminderSent) {
         super(id, title, description, startDate, endDate, startTime, endTime, priority, userId, isCompleted);
         this.reminderTime = reminderTime;
         this.reminderMessage = reminderMessage;
         this.notificationType = notificationType;
-        this.isReminderSent = false;
+        this.isReminderSent = isReminderSent;
     }
 
     public LocalTime getReminderTime() {

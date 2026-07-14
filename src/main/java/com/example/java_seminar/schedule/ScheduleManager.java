@@ -528,7 +528,7 @@ public class ScheduleManager {
               r.getStartTime() + "|" + r.getEndTime() + "|" +
               r.getPriority() + "|" + r.getUserId() + "|" + r.isCompleted() + "|" +
               r.getReminderTime() + "|" + r.getReminderMessage() + "|" +
-              r.getNotificationType();
+              r.getNotificationType() + "|" + r.isReminderSent();
     }
 
     throw new IllegalArgumentException("지원하지 않는 일정 타입입니다.");
@@ -591,7 +591,8 @@ public class ScheduleManager {
                   Integer.parseInt(parts[9]),
                   Boolean.parseBoolean(parts[10]),
                   LocalTime.parse(parts[11]), parts[12],
-                  ReminderSchedule.NotificationType.valueOf(parts[13])
+                  ReminderSchedule.NotificationType.valueOf(parts[13]),
+                  Boolean.parseBoolean(parts[14])
           );
 
         default:
