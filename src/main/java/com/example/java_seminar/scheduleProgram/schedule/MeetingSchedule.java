@@ -1,49 +1,73 @@
-package com.example.java_seminar.schedule;
+package com.example.java_seminar.scheduleProgram.schedule;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class GeneralSchedule extends ScheduleItem {
-    private String category;
-    private String place;
-    private String memo;
+public class MeetingSchedule extends ScheduleItem {
+    private String location;
+    private String participants;
+    private String agenda;
+    private String host;
 
-    public GeneralSchedule(String title, String description,
+    public MeetingSchedule(String title, String description,
                            LocalDate startDate, LocalDate endDate,
                            LocalTime startTime, LocalTime endTime,
                            Priority priority, int userId,
-                           String category, String place, String memo) {
+                           String location, String participants,
+                           String agenda, String host) {
         super(title, description, startDate, endDate, startTime, endTime, priority, userId);
-        this.category = category;
-        this.place = place;
-        this.memo = memo;
+        this.location = location;
+        this.participants = participants;
+        this.agenda = agenda;
+        this.host = host;
     }
 
-    public GeneralSchedule(int id, String title, String description,
+    public MeetingSchedule(int id, String title, String description,
                            LocalDate startDate, LocalDate endDate,
                            LocalTime startTime, LocalTime endTime,
                            Priority priority, int userId, boolean isCompleted,
-                           String category, String place, String memo) {
+                           String location, String participants,
+                           String agenda, String host) {
         super(id, title, description, startDate, endDate, startTime, endTime, priority, userId, isCompleted);
-        this.category = category;
-        this.place = place;
-        this.memo = memo;
+        this.location = location;
+        this.participants = participants;
+        this.agenda = agenda;
+        this.host = host;
     }
 
-    public String getCategory() { return category; }
-    public String getPlace() { return place; }
-    public String getMemo() { return memo; }
+    public String getLocation() {
+        return location;
+    }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public String getParticipants() {
+        return participants;
+    }
+
+    public String getAgenda() {
+        return agenda;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
         touchUpdatedAt();
     }
-    public void setPlace(String place) {
-        this.place = place;
+
+    public void setParticipants(String participants) {
+        this.participants = participants;
         touchUpdatedAt();
     }
-    public void setMemo(String memo) {
-        this.memo = memo;
+
+    public void setAgenda(String agenda) {
+        this.agenda = agenda;
+        touchUpdatedAt();
+    }
+
+    public void setHost(String host) {
+        this.host = host;
         touchUpdatedAt();
     }
 
@@ -61,14 +85,15 @@ public class GeneralSchedule extends ScheduleItem {
         System.out.println("userId: " + getUserId());
         System.out.println("createdAt: " + getCreatedAt());
         System.out.println("updatedAt: " + getUpdatedAt());
-        System.out.println("category: " + getCategory());
-        System.out.println("place: " + getPlace());
-        System.out.println("memo: " + getMemo());
+        System.out.println("location: " + getLocation());
+        System.out.println("participants: " + getParticipants());
+        System.out.println("agenda: " + getAgenda());
+        System.out.println("host: " + getHost());
     }
 
     @Override
     public String getScheduleType() {
-        return "General Schedule";
+        return "Meeting Schedule";
     }
 
     @Override

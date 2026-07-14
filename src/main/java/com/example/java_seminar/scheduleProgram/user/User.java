@@ -1,4 +1,4 @@
-package com.example.java_seminar.schedule;
+package com.example.java_seminar.scheduleProgram.user;
 
 import java.time.LocalDateTime;
 

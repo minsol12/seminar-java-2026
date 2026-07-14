@@ -1,6 +1,10 @@
-package com.example.java_seminar.schedule;
+package com.example.java_seminar.scheduleProgram.schedule;
 
-import jakarta.annotation.Priority;
+import com.example.java_seminar.scheduleProgram.exception.ScheduleConflictException;
+import com.example.java_seminar.scheduleProgram.exception.ScheduleException;
+import com.example.java_seminar.scheduleProgram.exception.ScheduleNotFoundException;
+import com.example.java_seminar.scheduleProgram.exception.ScheduleStorageException;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -9,7 +13,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ScheduleManager {
@@ -18,7 +21,7 @@ public class ScheduleManager {
 
   private List<ScheduleItem> schedules = new ArrayList<>();
 
-  public void addSchedule(ScheduleItem item) throws ScheduleConflictException{
+  public void addSchedule(ScheduleItem item) throws ScheduleConflictException {
     // 1. 충돌 확인 (checkConflict 호출)
     int targetIndex = -1;
 

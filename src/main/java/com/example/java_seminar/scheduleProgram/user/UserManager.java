@@ -1,4 +1,8 @@
-package com.example.java_seminar.schedule;
+package com.example.java_seminar.scheduleProgram.user;
+
+import com.example.java_seminar.scheduleProgram.exception.ScheduleException;
+import com.example.java_seminar.scheduleProgram.schedule.ScheduleManager;
+import com.example.java_seminar.scheduleProgram.exception.ScheduleStorageException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -38,14 +38,14 @@
 - 파일 저장 및 불러오기 기능 구현
 - 사용자 정의 예외로 일정 관련 오류 분리
 
-상세 보기: [schedule README](src/main/java/com/example/java_seminar/schedule/README.md)
+상세 보기: [schedule README](src/main/java/com/example/java_seminar/scheduleProgram/README.md)
 
 ## Run
 
 각 주제는 별도의 `Main` 클래스로 실행할 수 있습니다.
 
 - `com.example.java_seminar.account.Main`
-- `com.example.java_seminar.schedule.Main`
+- `com.example.java_seminar.scheduleProgram.Main`
 
 ## Goal
 

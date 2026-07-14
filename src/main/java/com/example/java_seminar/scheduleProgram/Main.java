@@ -1,4 +1,10 @@
-package com.example.java_seminar.schedule;
+package com.example.java_seminar.scheduleProgram;
+
+import com.example.java_seminar.scheduleProgram.exception.ScheduleException;
+import com.example.java_seminar.scheduleProgram.exception.ScheduleStorageException;
+import com.example.java_seminar.scheduleProgram.schedule.*;
+import com.example.java_seminar.scheduleProgram.user.User;
+import com.example.java_seminar.scheduleProgram.user.UserManager;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
