@@ -75,6 +75,23 @@ public class UserManager {
     user.setEmail(email);
   }
 
+  // deleteUser 메서드
+  // findById(id)로 사용자 존재 확인 -> scheduleManager.hasSchedulesByUserId(id) 호출 -> 일정 있다면 예외, 없으면 users 리스트에서 제거
+  public void deleteUser(int id, ScheduleManager scheduleManager) throws ScheduleException {
+    findById(id);
+
+    if (scheduleManager.hasSchedulesByUserId(id)) {
+      throw new ScheduleException("해당 사용자에게 등록된 일정이 있어 삭제할 수 없습니당...");
+    }
+
+    for (int i = 0; i < users.size(); i++) {
+      if (users.get(i).getId() == id) {
+        users.remove(i);
+        return;
+      }
+    }
+  }
+
   private boolean isDuplicateEmailExceptUser(String email, int userId) {
     for (User user : users) {
       if (user.getId() != userId && user.getEmail().equals(email)) {

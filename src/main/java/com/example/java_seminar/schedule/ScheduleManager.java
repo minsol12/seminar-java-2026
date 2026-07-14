@@ -701,6 +701,15 @@ public class ScheduleManager {
     return result.toArray(new ScheduleItem[0]);
   }
 
-  //- deleteUser
+  // deleteUser 위해 필요함. 이 사용자의 일정이 있는지 확인하는 메서드
+  // userId를 받기 -> schedules 순회 -> 그 userId를 가진 일정이 하나라도 있으면 true, 없으면 false
+  public boolean hasSchedulesByUserId(int userId) {
+    for (ScheduleItem item : schedules) {
+      if (item.getUserId() == userId) {
+        return true;
+      }
+    }
 
+    return false;
+  }
 }

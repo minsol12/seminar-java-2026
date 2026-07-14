@@ -26,9 +26,9 @@ public class Main {
                                    "10. 날짜순 정렬, 11. 중요도순 정렬, 12. 완료 여부순 정렬, " +
                                    "13. 저장, 14. 불러오기, 15. 사용자 등록, " +
                                    "16. 전체 사용자 조회, 17. 사용자 상세 조회, 18. 사용자 수정, " +
-                                   "19. 사용자별 일정 조회, 20. 사용자별 제목 검색, 21. 사용자별 날짜 검색" +
-                                   "22. 사용자별 중요도 검색, 23. 사용자별 날짜순 정렬, 24. 사용자별 중요도순 정렬," +
-                                   "25. 사용자별 완료 여부순 정렬, 26. 종료");
+                                   "19. 사용자 삭제, 20. 사용자별 일정 조회, 21. 사용자별 제목 검색, 22. 사용자별 날짜 검색, " +
+                                   "23. 사용자별 중요도 검색, 24. 사용자별 날짜순 정렬, 25. 사용자별 중요도순 정렬, " +
+                                   "26. 사용자별 완료 여부순 정렬, 27. 종료");
 
                 System.out.print("번호를 입력해 주세요: ");
 
@@ -524,7 +524,23 @@ public class Main {
                         }
                         break;
 
+                    // 사용자 삭제
                     case 19:
+                        try {
+                            System.out.println("=== 사용자 삭제 ===");
+                            System.out.print("삭제할 사용자 ID: ");
+
+                            int deleteUserId = scanner.nextInt();
+                            scanner.nextLine();
+
+                            userManager.deleteUser(deleteUserId, manager);
+                            System.out.println("사용자가 삭제되었습니다.");
+                        } catch (ScheduleException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+
+                    case 20:
                         try {
                             System.out.println("=== 사용자별 일정 조회 ===");
                             System.out.print("조회할 사용자 ID: ");
@@ -540,7 +556,7 @@ public class Main {
 
                         break;
 
-                    case 20:
+                    case 21:
                         try {
                             System.out.println("=== 사용자별 제목 검색 ===");
                             System.out.print("사용자 ID 입력: ");
@@ -568,7 +584,7 @@ public class Main {
                         }
                         break;
 
-                    case 21:
+                    case 22:
                         try {
                             System.out.println("=== 사용자별 날짜 검색 ===");
                             System.out.print("사용자 ID 입력: ");
@@ -595,7 +611,7 @@ public class Main {
                         }
                         break;
 
-                    case 22:
+                    case 23:
                         try {
                             System.out.println("=== 사용자별 우선순위 검색 ===");
                             System.out.print("사용자 ID 입력: ");
@@ -624,7 +640,7 @@ public class Main {
                         }
                         break;
 
-                    case 23:
+                    case 24:
                         try {
                             System.out.println("=== 사용자별 날짜순 정렬 ===");
                             System.out.print("사용자 ID 입력: ");
@@ -649,7 +665,7 @@ public class Main {
                         }
                         break;
 
-                    case 24:
+                    case 25:
                         try {
                             System.out.println("=== 사용자별 중요도순 정렬 ===");
                             System.out.print("사용자 ID 입력: ");
@@ -673,7 +689,7 @@ public class Main {
                         }
                         break;
 
-                    case 25:
+                    case 26:
                         try {
                             System.out.println("=== 사용자별 완료 여부순 정렬 ===");
                             System.out.print("사용자 ID 입력: ");
@@ -698,7 +714,7 @@ public class Main {
                         }
                         break;
 
-                    case 26:
+                    case 27:
                         System.out.println("프로그램을 종료합니다.");
                         scanner.close();
                         return;
