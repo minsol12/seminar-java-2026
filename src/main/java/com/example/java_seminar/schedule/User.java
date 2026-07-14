@@ -11,18 +11,38 @@ public class User {
 
   private static int idCounter = 1;
 
-  public User() {
+//  public User() {
+//    this.id = idCounter++;
+//    LocalDateTime now = LocalDateTime.now();
+//    this.createdAt = now;
+//    this.updatedAt = now;
+//  }
+
+  // 생성자에서 바로 setter 쓰기
+  public User(String name, String email) {
+//    this();
     this.id = idCounter++;
     LocalDateTime now = LocalDateTime.now();
     this.createdAt = now;
     this.updatedAt = now;
-  }
 
-  // 생성자에서 바로 setter 쓰기
-  public User(String name, String email) {
-    this();
     setName(name);
     setEmail(email);
+  }
+
+  // 파일 복원용 생성자
+  public User(int id, String name, String email) {
+    this.id = id;
+    LocalDateTime now = LocalDateTime.now();
+    this.createdAt = now;
+    this.updatedAt = now;
+
+    setName(name);
+    setEmail(email);
+
+    if (id >= idCounter) {
+      idCounter = id + 1;
+    }
   }
 
   public int getId() {

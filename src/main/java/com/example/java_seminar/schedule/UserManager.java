@@ -1,5 +1,10 @@
 package com.example.java_seminar.schedule;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,5 +105,79 @@ public class UserManager {
     }
 
     return false;
+  }
+
+  // 저장
+  public void saveToFile(String filePath) throws ScheduleStorageException {
+    try {
+      Path path = Paths.get(filePath);
+
+      if (path.getParent() != null) {
+        Files.createDirectories(path.getParent());
+      }
+
+      List<String> lines = new ArrayList<>();
+
+      for (User user : users) {
+        lines.add(toDataString(user));
+      }
+
+      Files.write(path, lines, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      throw new ScheduleStorageException("사용자 저장에 실패했습니다.", e);
+    }
+  }
+
+  // toDataString(User user)
+  // User 객체 하나를 파일에 쓸 한 줄 문자열로 바꿈
+  private String toDataString(User user) {
+    return user.getId() + "|" + user.getName() + "|" + user.getEmail();
+  }
+
+  // 불러오기
+  // 파일 존재 확인 - 모든 줄 읽기 - 기존 users 비우기 - 각 줄을 User 객체로 복원 - 복원 실패 시 예외 처리
+  public void loadFromFile(String filePath) throws ScheduleStorageException {
+    try {
+      Path path = Path.of(filePath);
+
+      if (!Files.exists(path)) {
+        throw new ScheduleStorageException("사용자 저장 파일이 존재하지 않습니다.");
+      }
+
+      List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+      List<User> loadedUsers = new ArrayList<>();
+
+      for (String line : lines) {
+        if (line.isBlank()) {
+          continue;
+        }
+
+        loadedUsers.add(fromDataString(line));
+      }
+
+      users.clear();
+      users.addAll(loadedUsers);
+    } catch (IOException e) {
+      throw new ScheduleStorageException("사용자 불러오기에 실패했습니다.", e);
+    }
+  }
+
+  private User fromDataString(String line) throws ScheduleStorageException {
+    String[] parts = line.split("\\|");
+
+    if (parts.length != 3) {
+      throw new ScheduleStorageException("사용자 저장 파일 형식이 올바르지 않습니다.");
+    }
+
+    // parts로 나누기
+    try {
+      int id = Integer.parseInt(parts[0]);
+      String name = parts[1];
+      String email = parts[2];
+
+      return new User(id, name, email);
+    } catch (Exception e) {
+      throw new ScheduleStorageException("사용자 저장 파일 형식이 올바르지 않습니다.");
+    }
   }
 }

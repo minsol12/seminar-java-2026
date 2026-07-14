@@ -9,7 +9,8 @@ import java.util.Scanner;
 // 마감 시간이 시작 시간보다 빠를 때 예외 처리가 입력이 다 끝나고 나오게 됨. 입력 즉시 판단해서 예외처리 되도록 수정하기
 
 public class Main {
-    private static final String SAVE_FILE = "data/schedules.txt";
+    private static final String SCHEDULE_SAVE_FILE = "data/schedules.txt";
+    private static final String USER_SAVE_FILE = "data/users.txt";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -24,7 +25,7 @@ public class Main {
                 System.out.println("1. 등록, 2. 전체 조회, 3. 상세 조회, 4. 수정, 5. 삭제, 6. 완료, " +
                                    "7. 제목 검색, 8. 날짜 검색, 9. 중요도 검색, " +
                                    "10. 날짜순 정렬, 11. 중요도순 정렬, 12. 완료 여부순 정렬, " +
-                                   "13. 저장, 14. 불러오기, 15. 사용자 등록, " +
+                                   "13. 전체 저장, 14. 전체 불러오기, 15. 사용자 등록, " +
                                    "16. 전체 사용자 조회, 17. 사용자 상세 조회, 18. 사용자 수정, " +
                                    "19. 사용자 삭제, 20. 사용자별 일정 조회, 21. 사용자별 제목 검색, 22. 사용자별 날짜 검색, " +
                                    "23. 사용자별 중요도 검색, 24. 사용자별 날짜순 정렬, 25. 사용자별 중요도순 정렬, " +
@@ -437,8 +438,9 @@ public class Main {
 
                     case 13:
                         try {
-                            manager.saveToFile(SAVE_FILE);
-                            System.out.println("일정을 저장했습니다.");
+                            userManager.saveToFile(USER_SAVE_FILE);
+                            manager.saveToFile(SCHEDULE_SAVE_FILE);
+                            System.out.println("전체 데이터가 저장되었습니다.");
                         } catch (ScheduleStorageException e) {
                             System.out.println(e.getMessage());
                         }
@@ -446,8 +448,10 @@ public class Main {
 
                     case 14:
                         try {
-                            manager.loadFromFile(SAVE_FILE);
-                            System.out.println("일정을 불러왔습니다.");
+                            // 일정이 userId 들고 잇음 => 사용자 먼저, 일정 나중 순서로 불러오기
+                            userManager.loadFromFile(USER_SAVE_FILE);
+                            manager.loadFromFile(SCHEDULE_SAVE_FILE);
+                            System.out.println("전체 데이터가 불러와졌습니다.");
                         } catch (ScheduleStorageException e) {
                             System.out.println(e.getMessage());
                         }
