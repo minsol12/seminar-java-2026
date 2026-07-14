@@ -67,12 +67,12 @@ public abstract class ScheduleItem {
     public ScheduleItem(int id, String title, String description,
                         LocalDate startDate, LocalDate endDate,
                         LocalTime startTime, LocalTime endTime,
-                        Priority priority, int userId) {
+                        Priority priority, int userId, boolean isCompleted) {
         this.id = id;
         LocalDateTime now = LocalDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
-        this.isCompleted = false;
+        this.isCompleted = isCompleted;
 
         this.title = title;
         this.description = description;

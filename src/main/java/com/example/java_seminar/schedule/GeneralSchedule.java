@@ -22,9 +22,9 @@ public class GeneralSchedule extends ScheduleItem {
     public GeneralSchedule(int id, String title, String description,
                            LocalDate startDate, LocalDate endDate,
                            LocalTime startTime, LocalTime endTime,
-                           Priority priority, int userId,
+                           Priority priority, int userId, boolean isCompleted,
                            String category, String place, String memo) {
-        super(id, title, description, startDate, endDate, startTime, endTime, priority, userId);
+        super(id, title, description, startDate, endDate, startTime, endTime, priority, userId, isCompleted);
         this.category = category;
         this.place = place;
         this.memo = memo;

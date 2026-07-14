@@ -30,10 +30,10 @@ public class ReminderSchedule extends ScheduleItem {
     public ReminderSchedule(int id, String title, String description,
                             LocalDate startDate, LocalDate endDate,
                             LocalTime startTime, LocalTime endTime,
-                            Priority priority, int userId,
+                            Priority priority, int userId, boolean isCompleted,
                             LocalTime reminderTime, String reminderMessage,
                             NotificationType notificationType) {
-        super(id, title, description, startDate, endDate, startTime, endTime, priority, userId);
+        super(id, title, description, startDate, endDate, startTime, endTime, priority, userId, isCompleted);
         this.reminderTime = reminderTime;
         this.reminderMessage = reminderMessage;
         this.notificationType = notificationType;

@@ -25,10 +25,10 @@ public class MeetingSchedule extends ScheduleItem {
     public MeetingSchedule(int id, String title, String description,
                            LocalDate startDate, LocalDate endDate,
                            LocalTime startTime, LocalTime endTime,
-                           Priority priority, int userId,
+                           Priority priority, int userId, boolean isCompleted,
                            String location, String participants,
                            String agenda, String host) {
-        super(id, title, description, startDate, endDate, startTime, endTime, priority, userId);
+        super(id, title, description, startDate, endDate, startTime, endTime, priority, userId, isCompleted);
         this.location = location;
         this.participants = participants;
         this.agenda = agenda;
