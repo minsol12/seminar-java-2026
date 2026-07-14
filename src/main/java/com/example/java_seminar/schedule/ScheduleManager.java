@@ -519,7 +519,7 @@ public class ScheduleManager {
               t.getStartDate() + "|" + t.getEndDate() + "|" +
               t.getStartTime() + "|" + t.getEndTime() + "|" +
               t.getPriority() + "|" + t.getUserId() + "|" + t.isCompleted() + "|" +
-              t.getDeadline() + "|" + t.getAssignedTo();
+              t.getDeadline() + "|" + t.getProgress() + "|" + t.getTaskStatus() + "|" + t.getAssignedTo();
 
     } else if (item instanceof ReminderSchedule) {
       ReminderSchedule r = (ReminderSchedule) item;
@@ -575,7 +575,10 @@ public class ScheduleManager {
                   ScheduleItem.Priority.valueOf(parts[8]),
                   Integer.parseInt(parts[9]),
                   Boolean.parseBoolean(parts[10]),
-                  LocalDate.parse(parts[11]), parts[12]
+                  LocalDate.parse(parts[11]),
+                  Integer.parseInt(parts[12]),
+                  TaskSchedule.TaskStatus.valueOf(parts[13]),
+                  parts[14]
           );
 
         case "REMINDER":

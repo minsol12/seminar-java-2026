@@ -30,11 +30,11 @@ public class TaskSchedule extends ScheduleItem {
                         LocalDate startDate, LocalDate endDate,
                         LocalTime startTime, LocalTime endTime,
                         Priority priority, int userId, boolean isCompleted,
-                        LocalDate deadline, String assignedTo) {
+                        LocalDate deadline, int progress, TaskStatus taskStatus, String assignedTo) {
         super(id, title, description, startDate, endDate, startTime, endTime, priority, userId, isCompleted);
         this.deadline = deadline;
-        this.progress = 0;
-        this.taskStatus = TaskStatus.TODO;
+        this.progress = progress;
+        this.taskStatus = taskStatus;
         this.assignedTo = assignedTo;
     }
 

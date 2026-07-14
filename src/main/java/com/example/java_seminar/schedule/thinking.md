@@ -200,3 +200,5 @@ user는 user끼리, schedule은 schedule끼리, exception은 exception끼리 패
 ### 현재 문제 (0714)
 - 불러오기 시 파일에 완료 여부가 있었다 해도, 생성자에서 무조건 false로 시작함.
 - 복원용 생성자에 isCompleted를 받을 수 있게 해야 함.
+
+- progress, taskStatus 저장 안됨 -> 불러오면 0, TODO로 초기화됨
