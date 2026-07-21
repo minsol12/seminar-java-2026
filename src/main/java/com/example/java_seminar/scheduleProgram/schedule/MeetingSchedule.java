@@ -2,22 +2,25 @@ package com.example.java_seminar.scheduleProgram.schedule;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MeetingSchedule extends ScheduleItem {
     private String location;
-    private String participants;
+//    private String participants;
+    private List<Integer> participantUserIds;
     private String agenda;
-    private String host;
+    private int host;
 
     public MeetingSchedule(String title, String description,
                            LocalDate startDate, LocalDate endDate,
                            LocalTime startTime, LocalTime endTime,
                            Priority priority, int userId,
-                           String location, String participants,
-                           String agenda, String host) {
+                           String location, List<Integer> participantUserIds,
+                           String agenda, int host) {
         super(title, description, startDate, endDate, startTime, endTime, priority, userId);
         this.location = location;
-        this.participants = participants;
+        this.participantUserIds = new ArrayList<>(participantUserIds);
         this.agenda = agenda;
         this.host = host;
     }
@@ -26,11 +29,11 @@ public class MeetingSchedule extends ScheduleItem {
                            LocalDate startDate, LocalDate endDate,
                            LocalTime startTime, LocalTime endTime,
                            Priority priority, int userId, boolean isCompleted,
-                           String location, String participants,
-                           String agenda, String host) {
+                           String location, List<Integer> participantUserIds,
+                           String agenda, int host) {
         super(id, title, description, startDate, endDate, startTime, endTime, priority, userId, isCompleted);
         this.location = location;
-        this.participants = participants;
+        this.participantUserIds = new ArrayList<>(participantUserIds);
         this.agenda = agenda;
         this.host = host;
     }
@@ -39,15 +42,15 @@ public class MeetingSchedule extends ScheduleItem {
         return location;
     }
 
-    public String getParticipants() {
-        return participants;
+    public List<Integer> getParticipantUserIds() {
+        return participantUserIds;
     }
 
     public String getAgenda() {
         return agenda;
     }
 
-    public String getHost() {
+    public int getHost() {
         return host;
     }
 
@@ -56,8 +59,9 @@ public class MeetingSchedule extends ScheduleItem {
         touchUpdatedAt();
     }
 
-    public void setParticipants(String participants) {
-        this.participants = participants;
+    public void setParticipantUserIds(List<Integer> participantUserIds) {
+        // 그대로 참조하지 않고 새 리스트로 복사
+        this.participantUserIds = new ArrayList<>(participantUserIds);
         touchUpdatedAt();
     }
 
@@ -66,7 +70,7 @@ public class MeetingSchedule extends ScheduleItem {
         touchUpdatedAt();
     }
 
-    public void setHost(String host) {
+    public void setHost(int host) {
         this.host = host;
         touchUpdatedAt();
     }
@@ -86,7 +90,7 @@ public class MeetingSchedule extends ScheduleItem {
         System.out.println("createdAt: " + getCreatedAt());
         System.out.println("updatedAt: " + getUpdatedAt());
         System.out.println("location: " + getLocation());
-        System.out.println("participants: " + getParticipants());
+        System.out.println("participantUserIds: " + getParticipantUserIds());
         System.out.println("agenda: " + getAgenda());
         System.out.println("host: " + getHost());
     }
