@@ -19,6 +19,10 @@ public class UserManager {
 //  같은 이메일 가진 사용자 중복 등록 불가
 //  중복이면 예외 던짐
   public void addUser(User user) throws ScheduleException {
+    if (isDuplicateName(user.getName())) {
+      throw new ScheduleException("이미 사용 중인 사용자 이름입니다.");
+    }
+
     if (isDuplicateEmail(user.getEmail())) {
       throw new ScheduleException("이미 사용 중인 이메일입니다.");
     }
@@ -31,6 +35,15 @@ public class UserManager {
   private boolean isDuplicateEmail(String email) {
     for (User user : users) {
       if (user.getEmail().equals(email)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean isDuplicateName(String name) {
+    for (User user : users) {
+      if (user.getName().equals(name)) {
         return true;
       }
     }
@@ -61,6 +74,16 @@ public class UserManager {
     throw new ScheduleException("해당 id의 사용자가 존재하지 않습니다..");
   }
 
+  public User findByName(String name) throws ScheduleException {
+    for (User user : users) {
+      if (user.getName().equals(name)) {
+        return user;
+      }
+    }
+
+    throw new ScheduleException("해당 이름의 사용자가 존재하지 않습니다.");
+  }
+
 //- displayUserById
   public void displayUserById(int id) throws ScheduleException {
     // findById() -> displayInfo();
@@ -75,6 +98,10 @@ public class UserManager {
   // 바꾸려는 이메일이 다른 사용자와 중복되는지 - 만들어야댐. 내 이메일 그대로 다시 입력하는 건 허용해야 하기 때문에
   public void updateUser(int id, String name, String email) throws ScheduleException {
     User user = findById(id);
+
+    if (isDuplicateNameExceptUser(name, id)) {
+      throw new ScheduleException("이미 사용 중인 사용자 이름입니다.");
+    }
 
     if (isDuplicateEmailExceptUser(email, id)) {
       throw new ScheduleException("이미 사용 중인 이메일입니다.");
@@ -112,6 +139,16 @@ public class UserManager {
   }
 
   // 저장
+  private boolean isDuplicateNameExceptUser(String name, int userId) {
+    for (User user : users) {
+      if (user.getId() != userId && user.getName().equals(name)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   public void saveToFile(String filePath) throws ScheduleStorageException {
     try {
       Path path = Paths.get(filePath);
