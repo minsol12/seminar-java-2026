@@ -513,8 +513,8 @@ public class ScheduleManager {
               m.getStartDate() + "|" + m.getEndDate() + "|" +
               m.getStartTime() + "|" + m.getEndTime() + "|" +
               m.getPriority() + "|" + m.getUserId() + "|" + m.isCompleted() + "|" +
-              m.getLocation() + "|" + m.getParticipants() + "|" +
-              m.getAgenda() + "|" + m.getHost();
+              m.getLocation() + "|" + joinParticipantUserIds(m.getParticipantUserIds()) + "|" +
+              m.getAgenda() + "|" + m.getHostUserId();
 
     } else if (item instanceof TaskSchedule) {
       TaskSchedule t = (TaskSchedule) item;
@@ -538,6 +538,38 @@ public class ScheduleManager {
   }
 
   // 불러오기용 파싱 메서드
+  private String joinParticipantUserIds(List<Integer> participantUserIds) {
+    if (participantUserIds.isEmpty()) {
+      return "";
+    }
+
+    StringBuilder builder = new StringBuilder();
+    for (int i = 0; i < participantUserIds.size(); i++) {
+      if (i > 0) {
+        builder.append(",");
+      }
+      builder.append(participantUserIds.get(i));
+    }
+
+    return builder.toString();
+  }
+
+  private List<Integer> parseParticipantUserIds(String value) {
+    List<Integer> participantUserIds = new ArrayList<>();
+
+    // 값(value)이 아예 비어있거나(null) 내용이 없는지 검사
+    if (value == null || value.isBlank()) {
+      return participantUserIds;
+    }
+
+    String[] tokens = value.split(",");
+    for (String token : tokens) {
+      participantUserIds.add(Integer.parseInt(token.trim()));  // 텍스트 조각 양끝에 혹시 모를 띄어쓰기를 깔끔하게 없애기 - trim
+    }
+
+    return participantUserIds;
+  }
+
   private ScheduleItem fromDataString(String line) throws ScheduleStorageException {
     // 구분자(|)를 기준으로 문자열을 쪼개어 배열 생성
     String[] parts = line.split("\\|");
@@ -566,7 +598,7 @@ public class ScheduleManager {
                   ScheduleItem.Priority.valueOf(parts[8]),
                   Integer.parseInt(parts[9]),
                   Boolean.parseBoolean(parts[10]),
-                  parts[11], parts[12], parts[13], parts[14]
+                  parts[11], parseParticipantUserIds(parts[12]), parts[13], Integer.parseInt(parts[14])
           );
 
         case "TASK":
