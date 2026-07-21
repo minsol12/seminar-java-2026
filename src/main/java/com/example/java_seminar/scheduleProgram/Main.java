@@ -11,17 +11,21 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 // 마감 시간이 시작 시간보다 빠를 때 예외 처리가 입력이 다 끝나고 나오게 됨. 입력 즉시 판단해서 예외처리 되도록 수정하기
 
 public class Main {
     private static final String SCHEDULE_SAVE_FILE = "data/schedules.txt";
     private static final String USER_SAVE_FILE = "data/users.txt";
+    private static UserManager sharedUserManager;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ScheduleManager manager = new ScheduleManager();
         UserManager userManager = new UserManager();  // 사용자 존재 검증
+        sharedUserManager = userManager;
 
         // 일정 등록 전 userId를 먼저 입력받고,
         // 그 사용자가 실제 존재할 때만 일정 등록되도록 만들기
@@ -119,15 +123,17 @@ public class Main {
                                     String location = scanner.nextLine();
 
                                     System.out.print("참가자 입력: ");
-                                    String participants = scanner.nextLine();
+                                    List<Integer> participantUserIds = readParticipantUserIds(scanner, "참여자 이름 입력 (쉼표로 구분): ");
 
                                     System.out.print("안건 입력: ");
                                     String agenda = scanner.nextLine();
 
                                     System.out.print("호스트 입력: ");
-                                    String host = scanner.nextLine();
+//                                    String host = scanner.nextLine();
+                                    String hostName = scanner.nextLine();
+                                    int hostUserId = userManager.findByName(hostName).getId();
 
-                                    MeetingSchedule meetingSchedule = new MeetingSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, location, participants, agenda, host);
+                                    MeetingSchedule meetingSchedule = new MeetingSchedule(title, description, startDate, endDate, startTime, endTime, priority, userId, location, participantUserIds, agenda, hostUserId);
 
                                     manager.addSchedule(meetingSchedule);
                                     System.out.println("일정이 등록되었습니다!");
@@ -282,18 +288,20 @@ public class Main {
                                 String newLocation = scanner.nextLine();
 
                                 System.out.print("새 참가자 입력: ");
-                                String newParticipants = scanner.nextLine();
+                                List<Integer> newParticipantUserIds =
+                                        readParticipantUserIds(scanner, "새 참여자 이름 입력 (쉼표로 구분): ");
 
                                 System.out.print("새 안건 입력: ");
                                 String newAgenda = scanner.nextLine();
 
                                 System.out.print("새 호스트 입력: ");
-                                String newHost = scanner.nextLine();
+                                String newHostName = scanner.nextLine();
+                                int newHostUserId = userManager.findByName(newHostName).getId();
 
                                 meetingSchedule.setLocation(newLocation);
-                                meetingSchedule.setParticipants(newParticipants);
+                                meetingSchedule.setParticipantUserIds(newParticipantUserIds);
                                 meetingSchedule.setAgenda(newAgenda);
-                                meetingSchedule.setHost(newHost);
+                                meetingSchedule.setHostUserId(newHostUserId);
 
                             } else if (item instanceof TaskSchedule) {
                                 // deadline, assignedTo
@@ -807,6 +815,31 @@ public class Main {
                 return ReminderSchedule.NotificationType.valueOf(input);
             } catch (IllegalArgumentException e) {
                 System.out.println("알림 타입은 POPUP, SOUND, MESSAGE 중 하나만 입력하세요.");
+            }
+        }
+    }
+
+    private static List<Integer> readParticipantUserIds(Scanner scanner, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim();  // trim - 텍스트 양끝에 혹시 모를 띄어쓰기를 깔끔하게 없애기
+
+            if (input.isEmpty()) {
+                return new ArrayList<>();
+            }
+
+            String[] tokens = input.split(",");
+            List<Integer> participantUserIds = new ArrayList<>();
+
+            try {
+                for (String token : tokens) {
+                    String name = token.trim();
+                    int userId = sharedUserManager.findByName(name).getId();
+                    participantUserIds.add(userId);
+                }
+                return participantUserIds;
+            } catch (ScheduleException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
