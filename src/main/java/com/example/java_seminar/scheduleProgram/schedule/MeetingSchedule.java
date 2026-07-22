@@ -7,22 +7,21 @@ import java.util.List;
 
 public class MeetingSchedule extends ScheduleItem {
     private String location;
-//    private String participants;
     private List<Integer> participantUserIds;
     private String agenda;
-    private int host;
+    private int hostUserId;
 
     public MeetingSchedule(String title, String description,
                            LocalDate startDate, LocalDate endDate,
                            LocalTime startTime, LocalTime endTime,
                            Priority priority, int userId,
                            String location, List<Integer> participantUserIds,
-                           String agenda, int host) {
+                           String agenda, int hostUserId) {
         super(title, description, startDate, endDate, startTime, endTime, priority, userId);
         this.location = location;
         this.participantUserIds = new ArrayList<>(participantUserIds);
         this.agenda = agenda;
-        this.host = host;
+        this.hostUserId = hostUserId;
     }
 
     public MeetingSchedule(int id, String title, String description,
@@ -30,12 +29,12 @@ public class MeetingSchedule extends ScheduleItem {
                            LocalTime startTime, LocalTime endTime,
                            Priority priority, int userId, boolean isCompleted,
                            String location, List<Integer> participantUserIds,
-                           String agenda, int host) {
+                           String agenda, int hostUserId) {
         super(id, title, description, startDate, endDate, startTime, endTime, priority, userId, isCompleted);
         this.location = location;
         this.participantUserIds = new ArrayList<>(participantUserIds);
         this.agenda = agenda;
-        this.host = host;
+        this.hostUserId = hostUserId;
     }
 
     public String getLocation() {
@@ -50,8 +49,8 @@ public class MeetingSchedule extends ScheduleItem {
         return agenda;
     }
 
-    public int getHost() {
-        return host;
+    public int getHostUserId() {
+        return hostUserId;
     }
 
     public void setLocation(String location) {
@@ -70,8 +69,8 @@ public class MeetingSchedule extends ScheduleItem {
         touchUpdatedAt();
     }
 
-    public void setHost(int host) {
-        this.host = host;
+    public void setHostUserId(int hostUserId) {
+        this.hostUserId = hostUserId;
         touchUpdatedAt();
     }
 
@@ -92,7 +91,7 @@ public class MeetingSchedule extends ScheduleItem {
         System.out.println("location: " + getLocation());
         System.out.println("participantUserIds: " + getParticipantUserIds());
         System.out.println("agenda: " + getAgenda());
-        System.out.println("host: " + getHost());
+        System.out.println("hostUserId: " + getHostUserId());
     }
 
     @Override
